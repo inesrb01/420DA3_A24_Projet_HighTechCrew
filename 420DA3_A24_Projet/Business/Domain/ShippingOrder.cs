@@ -12,17 +12,19 @@ public class ShippingOrder {
     public int Id { get; set; }
     public  ShippingOrderStatusEnum Status { get; set; }
     public int SourceClientId { get; set; }
-    public int CreatorEmployeeTd {  get; set; }
+    public int CreatorEmployeeId {  get; set; }
     public int DestinationAddressId { get; set; }
     public int? FulfillEmployeedId { get; set; }
-    public DateTime? shippingDate { get; set; }
+    public DateTime? ShippingDate { get; set; }
     public DateTime DateCreated { get; set; }
     public DateTime? DateModified { get; set; }
     public DateTime? DateDeleted { get; set; }
+    public byte[] RowVersion { get; set; }
     public virtual client SourceClient { get; set; }
     public virtual User CreatorEmplyee { get; set; }
     public  virtual User? FulfillEmployee { get; set; }
     public virtual Address DestinationAddress { get; set; }
+
     public virtual List<ShippingOrderProduct> ShippingOrderProducts { get; set; } = new List<ShippingOrderProduct>();
     
     public void AssignToWhEmployee(User user)
