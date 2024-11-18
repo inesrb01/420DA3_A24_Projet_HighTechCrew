@@ -114,30 +114,7 @@ internal class User {
         DateModified = DateTime.Now; // Track changes
     }
 
-    public void UpdateUser(string newUsername = null, string newPasswordHash = null) {
-        if (!string.IsNullOrEmpty(newUsername)) {
-            if (!ValidateUsername(newUsername))
-                throw new ArgumentException("Invalid username. It must not exceed the maximum length.");
-            Username = newUsername;
-        }
+    
 
-        if (!string.IsNullOrEmpty(newPasswordHash)) {
-            if (!ValidatePasswordHash(newPasswordHash))
-                throw new ArgumentException("Invalid password hash. It must not exceed the maximum length.");
-            PasswordHash = newPasswordHash;
-        }
-
-        if (newUsername != null || newPasswordHash != null) {
-            DateModified = DateTime.Now; // Update the modification timestamp
-        }
-    }
-
-    public void MarkAsDeleted() {
-        DateDeleted = DateTime.Now; // Set deletion date to current time
-    }
-
-    public class Warehouse {
-        public int Id { get; set; }
-        public string Location { get; set; }
-    }
+   
 }

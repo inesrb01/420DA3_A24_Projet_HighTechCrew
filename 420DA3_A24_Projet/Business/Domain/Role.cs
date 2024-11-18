@@ -95,18 +95,5 @@ namespace _420DA3_A24_Projet.Business.Domain;
     }
 
 
-    public void UpdateRole(string newRoleName, string newRoleDescription) {
-        if (!ValidateRoleName(newRoleName))
-            throw new ArgumentException("Role name exceeds the maximum length.");
-        if (!ValidateRoleDescription(newRoleDescription))
-            throw new ArgumentException("Role description exceeds the maximum length.");
-
-        RoleName = newRoleName;
-        RoleDescription = newRoleDescription;
-        DateModified = DateTime.Now; // Update modification date
-    }
-
-    public void MarkAsDeleted() {
-        DateDeleted = DateTime.Now; // Set deletion date to current time
-    }
+   
 }
