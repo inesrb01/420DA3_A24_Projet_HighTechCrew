@@ -17,4 +17,8 @@ public partial class PasswordHasherWindow : Form {
     private void QuitButton_Click(object sender, EventArgs e) {
         Application.Exit();
     }
+
+    private void clearPasswordTextBox_TextChanged(object sender, EventArgs e) {
+
+    }
 }
