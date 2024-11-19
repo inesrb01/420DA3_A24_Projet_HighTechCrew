@@ -111,7 +111,80 @@ internal class AppDbContexte : DbContext {
         .IsRowVersion();
 
 
+
+
+       modelBuilder.Entity<Shipment>()
+       .ToTable(nameof(Shipment))
+       .HasKey(x => x.Id);
+
+        modelBuilder.Entity<Shipment>()
+        .Property(x => x.Id)
+       .HasColumnName(nameof (Shipment.Id))
+       .HasColumnOrder(0)
+       .HasColumnType("int")
+       .UseIdentityColumn(1, 1);
+
+        modelBuilder.Entity<ShippingOrder>()
+        .Property(x => x.Status)
+        .HasColumnName(nameof(Shipment.Status))
+        .HasColumnOrder(1)
+        .HasColumnType("nvarchar(24)")
+        .IsRequired(true);
+
+        modelBuilder.Entity<Shipment>()
+        .Property(x => x.ShippingService)
+        .HasColumnName(nameof(Shipment.ShippingService))
+        .HasColumnOrder(2)
+        .HasColumnType("nvarchar(24)")
+        .IsRequired(true);
+
+        modelBuilder.Entity<Shipment>()
+       .Property(x => x.ShippingOrderId)
+       .HasColumnName(nameof(Shipment.ShippingOrderId))
+       .HasColumnOrder(4)
+       .HasColumnType("int")
+       .IsRequired(true);
+
+        modelBuilder.Entity<Shipment>()
+        .Property(x => x.TrackingNumber)
+        .HasColumnName(nameof(Shipment.TrackingNumber))
+        .HasColumnOrder(3)
+        .HasColumnType("string")
+        .IsRequired(true);
+
+       
+
+        modelBuilder.Entity<Shipment>()
+        .Property(x => x.DateCreated)
+        .HasColumnName(nameof(Shipment.DateCreated))
+        .HasColumnOrder(5)
+        .HasColumnType("datetime")
+        .IsRequired(true);
+
+        modelBuilder.Entity<Shipment>()
+        .Property(x => x.DateModified)
+        .HasColumnName(nameof(Shipment.DateModified))
+        .HasColumnOrder(6)
+        .HasColumnType("datetime")
+        .IsRequired(false);
+
+
+        modelBuilder.Entity<Shipment>()
+        .Property(x => x.DateDeleted)
+        .HasColumnName(nameof(Shipment.DateDeleted))
+        .HasColumnOrder(7)
+        .HasColumnType("datetime")
+        .IsRequired(false);
+
+       .
+
+
     }
+   
+
+
+    
+
 
 
 }

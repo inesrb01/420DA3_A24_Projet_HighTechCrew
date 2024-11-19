@@ -26,7 +26,36 @@ public class ShippingOrder {
     public virtual Address DestinationAddress { get; set; }
 
     public virtual List<ShippingOrderProduct> ShippingOrderProducts { get; set; } = new List<ShippingOrderProduct>();
+
+    public ShippingOrder(int SourceClientId, int CreatorEmplyeeId, int DestinationAddressId) {
+        this.SourceClientId = SourceClientId;
+        this.CreatorEmployeeId = CreatorEmplyeeId;
+        this.DestinationAddressId = DestinationAddressId;
+        this.Status = ShippingOrderStatusEnum.New;
+    }
+
+    protected ShippingOrder(int id,
+        ShippingOrderStatusEnum status,
+        int sourceClientId,
+        int creatorEmployeeId, 
+        int destinationAddressId,
+        int? fulfillEmployeedId,
+        DateTime? shippingDate,
+        DateTime dateCreated,
+        DateTime? dateModified,
+        DateTime? dateDeleted,
+        byte[] rowVersion)
+        : this( sourceClientId,creatorEmployeeId, destinationAddressId) {
+        this.Id = id;
+        this.Status = status;
+        this.FulfillEmployeedId = fulfillEmployeedId;
+        this.DateCreated = dateCreated;
+        this.DateModified = dateModified;
+        this.DateDeleted = dateDeleted;
+        this.RowVersion = rowVersion;
     
+    }
+
     public void AssignToWhEmployee(User user)
     {
         FulfillEmployee = user;
