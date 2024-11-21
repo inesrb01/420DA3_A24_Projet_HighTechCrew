@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
-using Project_Utilities.Enums;
+﻿using Project_Utilities.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace _420DA3_A24_Projet.Business.Domain;
+
+
+// UNDONE @HAJAR: documentation de la classe et de ses méthodes
 public class ShippingOrder {
     public int Id { get; set; }
     public  ShippingOrderStatusEnum Status { get; set; }
@@ -49,6 +51,7 @@ public class ShippingOrder {
         this.Id = id;
         this.Status = status;
         this.FulfillEmployeedId = fulfillEmployeedId;
+        // UNDONE @HAJAR: assigner le paramètre shippingDate à la propriété ShippingDate
         this.DateCreated = dateCreated;
         this.DateModified = dateModified;
         this.DateDeleted = dateDeleted;
