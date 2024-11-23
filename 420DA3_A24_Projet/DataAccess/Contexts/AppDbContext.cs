@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace _420DA3_A24_Projet.DataAccess.Contexts;
-internal class AppDbContexte : DbContext {
+internal class AppDbContext : DbContext {
     public DbSet<ShippingOrder> ShippingOrders { get; set; }
     public DbSet< Shipment> Shipments { get; set; }
     public DbSet< ShipmentProduct > ShipmentProducts { get; set; }

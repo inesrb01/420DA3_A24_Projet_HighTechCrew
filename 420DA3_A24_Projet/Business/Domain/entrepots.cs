@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static _420DA3_A24_Projet.Business.Domain.Produits;
 
 namespace _420DA3_A24_Projet.Business.Domain;
 internal class entrepots {
@@ -24,19 +25,21 @@ internal class entrepots {
         entrepotAddresse = entrepotAddresse;
         Produits = new List<Produit>(); 
     }
-    public void AjouteProduit(Produit) 
+    public void AjouterProduit(Produit produit) 
     {
-        Produits.Add(Produit);
+        Produits.Add(produit);
         Console.WriteLine("Produit bien ajoute: {produit.Name}");
 
     }
     public void SupprimerProduit(int Produitid) 
     {
-        var produit = Produits.Find(p => p.ID == Produitid);
-        if (produit == null) {
+         Produit produit = Produits.FirstOrDefault(p => p.Id == Produitid);
+        if (produit ! == null) {
             Produits.Remove(produit);
             Console.WriteLine("Produit retire: {produit.Nom}");
-        } else {
+        } 
+        else 
+        {
             Console.WriteLine("Produit n'existe pas.");
         }
 
@@ -44,10 +47,10 @@ internal class entrepots {
     public void DisplayProduits() 
     {
         Console.WriteLine("Produits existent dans l'entrepot {Nom}:");
-        foreach (var produit in Produits) 
-        {
-            Console.WriteLine("{Produit.Nom} (ID: {Produit.produitID})");
+        foreach (Produit produit in Produits) {
+            Console.WriteLine($"Produit: {produit.Nom} (ID: {produit.Id})");
         }
+
     }
 }
 
