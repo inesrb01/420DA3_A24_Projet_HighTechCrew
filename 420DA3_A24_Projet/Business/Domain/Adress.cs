@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace _420DA3_A24_Projet.Business.Domain;
+
+// TODO @BRAHEM: renommer le fichier pour être pareil au nom de la classe
 public class Address {
 
     public const int ADDRESSEE_MAX_LENGTH = 64;
@@ -24,6 +26,8 @@ public class Address {
     private string postalCode = null!;
 
     public int Id { get; set; }
+
+    // TODO @BRAHEM: Ajouter une propriété AddressType de type AddressTypeEnum (Project_Utilities.Enums.AddressTypesEnum)
 
     public string Addressee {
         get { return this.addressee; }
@@ -102,6 +106,13 @@ public class Address {
 
     public DateTime? DateDeleted { get; set; }
 
+    // TODO @BRAHEM: Ajouter unr propriété RowVersion de type byte[] pour contrer les erreurs de concurrence
+
+    // TODO @BRAHEM: Ajouter les propriétés de navigation:
+    // une de type entrepot-nullable (entrepots?) et une de type ShippingOrder-nullable (ShippingOrder?)
+
+
+
 
     public Address(string addressee, string civicNumber, string street, string city, string state, string country, string postalCode) {
         this.Addressee = addressee;
@@ -115,6 +126,7 @@ public class Address {
 
 
     // Constructeur utilisé par Entity Framework
+    // TODO @BRAHEM: Ajouter des paramètres pour les propriétés AddressType et RowVersion
     protected Address(int id, string addressee, string civicNumber, string street, string city, string state, string country, string postalCode, DateTime dateCreated, DateTime? dateModified, DateTime? dateDeleted)
         : this(addressee, civicNumber, street, city, state, country, postalCode) {
         this.Id = id;
@@ -124,6 +136,7 @@ public class Address {
     }
 
     // Méthodes de validation
+    // TODO @BRAHEM: Suggestion, utiliser ces méthodes de validation dans la validation de vos propriétés
     public static bool ValidateCivicNumber(string civicNumber) => (civicNumber.Length <= CIVICNUMBER_MAX_LENGTH);
     public static bool ValidateStreet(string street) => street.Length <= STREET_MAX_LENGTH;
     public static bool ValidateCity(string city) => city.Length <= CITY_MAX_LENGTH;
