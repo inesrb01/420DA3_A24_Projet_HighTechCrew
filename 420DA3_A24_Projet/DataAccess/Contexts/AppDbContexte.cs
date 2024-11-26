@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,7 +17,10 @@ internal class AppDbContexte : DbContext {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         base.OnConfiguring(optionsBuilder);
 
-        optionsBuilder.UseSqlServer("").UseLazyLoadingProxies();
+        string connString = ConfigurationManager.ConnectionStrings["ProjectDatabase"]?.ConnectionString
+            ?? throw new Exception("No connection string found for key [ProjectDatabase]");
+
+        = optionsBuilder.UseSqlServer(connString).UseLazyLoadingProxies;
 
 
     }
@@ -113,13 +117,13 @@ internal class AppDbContexte : DbContext {
 
 
 
-       modelBuilder.Entity<Shipment>()
-       .ToTable(nameof(Shipment))
-       .HasKey(x => x.Id);
+        modelBuilder.Entity<Shipment>()
+        .ToTable(nameof(Shipment))
+        .HasKey(x => x.Id);
 
         modelBuilder.Entity<Shipment>()
         .Property(x => x.Id)
-       .HasColumnName(nameof (Shipment.Id))
+       .HasColumnName(nameof(Shipment.Id))
        .HasColumnOrder(0)
        .HasColumnType("int")
        .UseIdentityColumn(1, 1);
@@ -152,7 +156,7 @@ internal class AppDbContexte : DbContext {
         .HasColumnType("string")
         .IsRequired(true);
 
-       
+
 
         modelBuilder.Entity<Shipment>()
         .Property(x => x.DateCreated)
@@ -174,9 +178,10 @@ internal class AppDbContexte : DbContext {
         .HasColumnName(nameof(Shipment.DateDeleted))
         .HasColumnOrder(7)
         .HasColumnType("datetime")
-        .IsRequired(false);
+        .IsRequired(false); 
 
-       .
+
+       
 
 
     }
