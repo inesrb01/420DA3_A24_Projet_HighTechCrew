@@ -10,6 +10,8 @@ namespace _420DA3_A24_Projet.DataAccess.Contexts;
 internal class AppDbContexte : DbContext {
     public DbSet<ShippingOrder> ShippingOrders { get; set; }
     public DbSet< Shipment> Shipments { get; set; }
+
+    public DbSet<Address> Addresses { get; set; }
     public DbSet<ShipmentProduct> ShipmentProducts { get; set; } // TODO @SOMEONE: completer une classe-pivot ShippingOrderProduct
 
     // TODO @TOUT_LE_MONDE: ajouter des DbSet pour les autres classes du domaine
