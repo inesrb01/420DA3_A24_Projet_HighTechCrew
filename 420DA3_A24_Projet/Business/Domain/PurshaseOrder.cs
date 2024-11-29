@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace _420DA3_A24_Projet.Business.Domain;
 
+// TODO @BRAHEM: supprimer: Utiliser Project_Utilities.Enums.PurchaseOrderStatusEnum déjà fourni
 public enum PurchaseOrderStatusEnum {
     Pending,
     Approved,
@@ -18,7 +19,7 @@ public class PurshaseOrder {
 
     // Attributs de la Classe PurshaseOrder 
     public int Id { get; set; }
-    public PurchaseOrderStatusEnum Status { get; set; }
+    public PurchaseOrderStatusEnum Status { get; set; } // TODO @BRAHEM: Utiliser l'enum fourni dans Project_Utilities.Enums
     public int ProductId { get; set; }
     public int WarehouseId { get; set; }
     public int Quantity { get; set; }
@@ -27,13 +28,23 @@ public class PurshaseOrder {
     public DateTime? DateModified { get; set; }
     public DateTime? DateDeleted { get; set; }
 
+    // UNDONE @BRAHEM: ajouter une propriété anti-concurrence RowVersion, type byte[]
+
     // Associations
 
+    // TODO @BRAHEM: Attention d'ajouter le modificateur 'virtual' aux propriétés de navigation
     //public Product OrderedProduct { get; set; } // Utilisation directe de la classe existante
     //public Warehouse Warehouse { get; set; }   // Utilisation directe de la classe existante
 
 
+
+    // UNDONE @BRAHEM: créer 2 constructeurs: 1 orienté création par utilisateurs, 1 orienté EF Core
+
+
+
+
     // Methode Complete pour 
+    // TODO @BRAHEM: à revoir / compléter
     public bool Complete() {
         if (this.Status == PurchaseOrderStatusEnum.Completed) {
             return false; // Déjà complété
