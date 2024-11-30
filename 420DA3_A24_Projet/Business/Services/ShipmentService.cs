@@ -28,7 +28,7 @@ internal class ShipmentService
     public Shipment Creat(Shipment shipment) 
     {
         var createdShipment = dao.Create(shipment);
-        application.Notify("Shipment créé avec succès");
+        throw new Exception("Shipment créé avec succès");
         return createdShipment;
     }
     public List<Shipment> Search(string keyword) 
@@ -38,7 +38,7 @@ internal class ShipmentService
     public Shipment Update(Shipment shipment) 
     {
         var updatedShipment = dao.Update(shipment);
-        application.Notify("Shipment mis à jour avec succès ");
+        throw new Exception("Shipment mis à jour avec succès ");
         return updatedShipment;
     }
     public void Delete(Shipment shipment, bool hardDelete = true)
@@ -46,12 +46,12 @@ internal class ShipmentService
         if (hardDelete) 
         {
             dao.Delete(shipment);
-            application.Notify("Shipment supprimé avec succès");
+            throw new Exception("Shipment supprimé avec succès");
         } else 
         {
             shipment.DateDeleted = DateTime.Now;
             dao.Update(shipment);
-            application.Notify("Shipment marqué est deja supprimé ");
+            throw new Exception("Shipment marqué est deja supprimé ");
         }
     }
 }

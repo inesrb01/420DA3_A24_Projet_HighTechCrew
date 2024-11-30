@@ -11,17 +11,32 @@ using System.Web;
 namespace _420DA3_A24_Projet.Business.Domain;
 public class Shipment {
 
-    // TODO @HAJAR: ajouter un champ privé pour le tracking number
+    private string _trackingNumber;
 
     // TODO @HAJAR: renommer la constante pour respecter les convention de casse de C# pour les membres publics (PascalCase)
-    public const int trackingNumberMaxLength = 50; // TrackingNumberMaxLength
+    public const int TrackingNumberMaxLength = 50; // TrackingNumberMaxLength
     public int Id { get; set; }
     public ShipmentStatusEnum Status { get; set; }
     public ShippingProvidersEnum ShippingService { get; set; }
     public int ShippingOrderId { get; set; }
 
     // TODO @HAJAR: valider la valeur assignée à la propriété dans le 'set' de TrackingNumber
-    public string TrackingNumber { get; set; }
+   
+    public string TrackingNumber {
+        get => _trackingNumber;
+        set 
+        {
+            if (ValidateTrackingNumber(value)) 
+            {
+                _trackingNumber= value;
+            }
+            else
+            {
+                throw new ArgumentException($"Tracking number must not exceed {TrackingNumberMaxLength} characters.");
+            }
+
+        }
+    }
     public DateTime DateCreated { get; set; }
     public DateTime? DateModified { get; set; }
     public DateTime? DateDeleted { get; set; }
@@ -30,14 +45,15 @@ public class Shipment {
 
 
     // TODO @HAJAR: supprimer le paramètre trackingNumber de ce constructeur-ci
-    public Shipment(int shippingOrderId, ShippingProvidersEnum shippingService, string trackingNumber) {
+    public Shipment(int shippingOrderId, ShippingProvidersEnum shippingService) {
         this.ShippingOrderId = shippingOrderId;
         this.ShippingService = shippingService;
 
         // TODO @HAJAR: Utiliser la factory pour générer un tracking number en fonction du service de livraison:
         // this.TrackingNumber = TrackingNumberFactory.GetInstance().GetNewTrackingNumber(shippingService);
-        this.TrackingNumber = trackingNumber; // supprimer
+        this.TrackingNumber = TrackingNumberFactory.GetInstance().GetNewTrackingNumber(shippingService);
         this.Status = ShipmentStatusEnum.New;
+        this.DateCreated = DateTime.Now;
     }
 
     protected Shipment(
@@ -50,7 +66,8 @@ public class Shipment {
         DateTime? dateModified,
         DateTime? dateDeleted,
         byte[] rowVersion)
-        : this(shippingOrderId, shippingService, trackingNumber) {
+        : this(shippingOrderId, shippingService, trackingNumber) 
+      {
 
         this.Id = id;
         this.Status = status;
@@ -58,8 +75,9 @@ public class Shipment {
         this.DateModified = dateModified;
         this.DateDeleted = dateDeleted;
         this.RowVersion = rowVersion;
+        this.TrackingNumber = trackingNumber;
     }
     public bool ValidateTrackingNumber(string trackingNumber) {
-        return !string.IsNullOrEmpty(trackingNumber) && trackingNumber.Length <= trackingNumberMaxLength;
+        return !string.IsNullOrEmpty(trackingNumber) && trackingNumber.Length <= TrackingNumberMaxLength;
     }
 }

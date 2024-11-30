@@ -11,7 +11,7 @@ namespace _420DA3_A24_Projet.DataAccess.Contexts;
 internal class AppDbContexte : DbContext {
     public DbSet<ShippingOrder> ShippingOrders { get; set; }
     public DbSet< Shipment> Shipments { get; set; }
-    public DbSet<ShipmentProduct> ShipmentProducts { get; set; } // TODO @SOMEONE: completer une classe-pivot ShippingOrderProduct
+    public DbSet<ShippingOrderProduct> ShippingOrderProducts { get; set; } // TODO @SOMEONE: completer une classe-pivot ShippingOrderProduct
 
     // TODO @TOUT_LE_MONDE: ajouter des DbSet pour les autres classes du domaine
 
@@ -21,7 +21,7 @@ internal class AppDbContexte : DbContext {
         string connString = ConfigurationManager.ConnectionStrings["ProjectDatabase"]?.ConnectionString
             ?? throw new Exception("No connection string found for key [ProjectDatabase]");
 
-        = optionsBuilder.UseSqlServer(connString).UseLazyLoadingProxies;
+        _ =  optionsBuilder.UseSqlServer(connString).UseLazyLoadingProxies();
 
 
     }
