@@ -14,8 +14,8 @@ internal class AdressDAO {
         this.context = context;
     }       
     public Address Create(Address address) {
-        this.context.Addresses.Add(address); // Ajoute l'adresse au DbSet
-        this.context.SaveChanges();         // Enregistre les modifications dans la base
+        _=this.context.Addresses.Add(address); // Ajoute l'adresse au DbSet
+        _=this.context.SaveChanges();         // Enregistre les modifications dans la base
         return address;                     // Retourne l'adresse créée
     }
 
@@ -30,7 +30,7 @@ internal class AdressDAO {
             throw new KeyNotFoundException($"Adresse avec ID {address.Id} introuvable.");
 
         this.context.Entry(existingAddress).CurrentValues.SetValues(address);
-        this.context.SaveChanges();
+        _=this.context.SaveChanges();
         return address;
     }
 
