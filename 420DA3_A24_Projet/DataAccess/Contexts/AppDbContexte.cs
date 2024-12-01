@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +20,10 @@ internal class AppDbContexte : DbContext {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         base.OnConfiguring(optionsBuilder);
 
-        optionsBuilder.UseSqlServer("").UseLazyLoadingProxies();
+        string connString = ConfigurationManager.ConnectionStrings["ProjectDatabase"]?.ConnectionString
+            ?? throw new Exception("No connection string found for key [ProjectDatabase]");
+
+        = optionsBuilder.UseSqlServer(connString).UseLazyLoadingProxies;
 
 
     }
@@ -155,7 +159,7 @@ internal class AppDbContexte : DbContext {
             .HasColumnType("string")
             .IsRequired(true);
 
-       
+
 
         modelBuilder.Entity<Shipment>()
             .Property(x => x.DateCreated)
