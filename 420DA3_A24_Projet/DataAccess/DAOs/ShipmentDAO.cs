@@ -1,5 +1,6 @@
 ﻿using _420DA3_A24_Projet.Business.Domain;
 using _420DA3_A24_Projet.DataAccess.Contexts;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,30 +14,34 @@ internal class ShipmentDAO {
     {
         _context = context;throw new ArgumentNullException(nameof(context));
     }
-    public void create(Shipment shipment)
+    public Shipment create(Shipment shipment)
     {
-        if (shipment == null) throw new ArgumentNullException(nameof(shipment), "L'envoi ne peut pas être nul.");
+        if (shipment == null)
+            throw new ArgumentNullException(nameof(shipment), "L'envoi ne peut pas être nul.");
         _context.Shipments.Add(shipment);
         _context.SaveChanges();
+        return shipment;
 
     }
+
     public List<Shipment> Search(string keyword)
     {
-        if (string.IsNullOrWhiteSpace(keyword))
-            throw new ArgumentException("Le mot-clé de recherche ne peut pas être vide.", nameof(keyword));
-        return _context.shipments
+       
+        return _context.Shipment
              .Where(s => s.TrackingNumber.Contains(keyword) || s.Status.ToString().Contains(keyword))
              .Include(s => s.ShippingOrder) // Inclut l'ordre d'expédition lié
              .ToList();
     }
-    public void Update(Shipment shipment)
+    public Shipment Update(Shipment shipment)
     {
         if(shipment == null)
             throw new ArgumentNullException(nameof(shipment), "L'envoi ne peut pas être nul.");
         _context.Shipments.Update(shipment);
         _context.SaveChanges();
+
+        return shipment;
     }
-    public void Delete(Shipment shipment,bool hardDelete = true)
+    public Shipment Delete(Shipment shipment,bool hardDelete = true)
     {
         if (shipment == null)
             throw new ArgumentNullException(nameof(shipment), "L'envoi ne peut pas être nul.");
@@ -52,14 +57,15 @@ internal class ShipmentDAO {
 
         }
         _context.SaveChanges();
+        return shipment;
     }
-    public Shipment GetById(int id)
+    public Shipment? GetById(int id)
     {
         if (id <= 0)
             throw new ArgumentException("L'ID doit être supérieur à zéro.", nameof(id));
 
         return _context.Shipments
-            .Include(s => s.ShippingOrder)
+            .Include(so => so.ShippingOrder)
             .FirstOrDefault(s => s.Id == id && s.DateDeleted == null);
     }
     public List<Shipment> GetAll()

@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 
 namespace _420DA3_A24_Projet.Business.Services;
 internal class ShippingOrderService {
-    private  WsysApplication parentApp;
-    private  ShippingOrderDAO dao;
-    private  ShippingOrderView view;
+    private WsysApplication parentApp;
+    private ShippingOrderDAO dao;
+    private ShippingOrderView view;
     private AppDbContexte context;
 
     /// <summary>
@@ -21,7 +21,7 @@ internal class ShippingOrderService {
     /// </summary>
     /// <param name="parentApp"></param>
     /// <param name="context"></param>
-   
+
 
     public ShippingOrderService(WsysApplication parentApp, AppDbContexte context) {
         this.parentApp = parentApp;
@@ -29,70 +29,61 @@ internal class ShippingOrderService {
         this.dao = new ShippingOrderDAO(context);
         this.view = new ShippingOrderView(parentApp);
     }
-    public ShippingOrder CreateOrder(ShippingOrder shippingOrder)
-    {
-        if (shippingOrder == null)
-            throw new ArgumentNullException(nameof(shippingOrder), "L'ordre d'expédition ne peut pas être nul.");
-        try
-        {
-            ValidateShippingOrder(shippingOrder);
+    public ShippingOrder CreateOrder(ShippingOrder shippingOrder) {
+        try { 
 
-            dao.Create(shippingOrder);
+            return dao.Create(shippingOrder);
 
-            view.DisplayMessage("L'ordre d'expédition a été créé avec succès.");
-        }
-        catch (Exception ex)
-        {
-            view.DisplayError($"Erreur lors de la création de l'ordre d'expédition ");
-            throw;
+
+        } catch (Exception ex) {
+            throw new Exception("echec de la creation de shippingOrder", ex);
         }
     }
-    public void Search(string keyword)
-    {
-        try 
-        {
-            var results = dao.Search(keyword);
-            view.DisplaySearchResults(results);
-        }
-        catch (Exception ex)
-        {
-            view.DisplayError($"Erreur lors de la recherche ");
-            throw;
-        }
+    public List<ShippingOrder> Search(string keyword) {
+        return dao.Search(keyword);
     }
-    public void UpdateOrder(ShippingOrder order, List<ShippingOrderProductModification> modifications) 
-    {
-        if (order == null)
-            throw new ArgumentNullException(nameof(order), "L'ordre d'expédition ne peut pas être nul.");
+    public ShippingOrder UpdateOrder(ShippingOrder order, List<ShippingOrderProductModification> modifications) {
 
-        if (order.Status != ShippingOrderStatusEnum.Unassigned)
-            throw new Exception("Seuls les ordres d'expédition non assignés peuvent être modifiés.");
+        if (order.Status != ShippingOrderStatusEnum.Unassigned && order.Status != ShippingOrderStatusEnum.New)
+            throw new Exception("Seuls les ordres d'expédition nouveaux ou non assignés peuvent être modifiés.");
 
-        foreach (var modification in modifications)
-        {
-            switch (modification.ModificationType) 
-            {
+        foreach (ShippingOrderProductModification modification in modifications) {
+            switch (modification.ModificationType) {
                 case ShippingOrderProductModificationTypeEnum.Addition:
-                    modification.ShippingOrderProduct.Product.qteStock -= modification.ShippingOrderProduct.Quantity;
+                    modification.ShippingOrderProduct.Product.InStockQty -= modification.ShippingOrderProduct.Quantity;
                     context.ShippingOrderProducts.Add(modification.ShippingOrderProduct);
+                    if (modification.ShippingOrderProduct.Product.InStockQty < modification.ShippingOrderProduct.Product.DesiredQty * 0.5) {
+                        PurshaseOrder newPO = new PurshaseOrder();
+                        newPO.Status = Domain.PurchaseOrderStatusEnum.Pending;
+                        newPO.ProductId = modification.ShippingOrderProduct.Product.Id;
+                        newPO.Quantity = (modification.ShippingOrderProduct.Product.DesiredQty - modification.ShippingOrderProduct.Product.InStockQty);
+                        this.parentApp.PurchaseOrderService.Create(newPO);
+                    }
                     break;
                 case ShippingOrderProductModificationTypeEnum.Modification:
-                    if (modification.NewQuantity != modification.OriginalQuantity) 
-                        
-                    {
+                    if (modification.NewQuantity > modification.OriginalQuantity) {
                         int quantityChange = modification.NewQuantity - modification.OriginalQuantity;
-                        modification.ShippingOrderProduct.Product.qteStock -= quantityChange;
+                        modification.ShippingOrderProduct.Product.InStockQty -= quantityChange;
                         modification.ShippingOrderProduct.Quantity = modification.NewQuantity;
 
-                        if (modification.ShippingOrderProduct.Product.qteStock < modification.ShippingOrderProduct.Quantity * 0.5) 
-                        {
-                            
+                        if (modification.ShippingOrderProduct.Product.InStockQty < modification.ShippingOrderProduct.Product.DesiredQty * 0.5) {
+                            PurshaseOrder newPO = new PurshaseOrder();
+                            newPO.Status = Domain.PurchaseOrderStatusEnum.Pending;
+                            newPO.ProductId = modification.ShippingOrderProduct.Product.Id;
+                            newPO.Quantity = (modification.ShippingOrderProduct.Product.DesiredQty - modification.ShippingOrderProduct.Product.InStockQty);
+                            this.parentApp.PurchaseOrderService.Create(newPO);
                         }
+                    } else {
+                        // newQuantity < Originalquantity
+                        int quantityChange = modification.OriginalQuantity - modification.NewQuantity;
+                        modification.ShippingOrderProduct.Product.InStockQty += quantityChange;
+                        modification.ShippingOrderProduct.Quantity = modification.NewQuantity;
+
                     }
                     break;
 
                 case ShippingOrderProductModificationTypeEnum.Removal:
-                    modification.ShippingOrderProduct.Product.qteStock += modification.ShippingOrderProduct.Quantity;
+                    modification.ShippingOrderProduct.Product.InStockQty += modification.ShippingOrderProduct.Quantity;
                     context.ShippingOrderProducts.Remove(modification.ShippingOrderProduct);
                     break;
 
@@ -101,42 +92,19 @@ internal class ShippingOrderService {
             }
         }
 
-        context.SaveChanges();
+        return this.dao.Update(order);
     }
 
-    public void Delete(ShippingOrder shippingOrder, bool hardDelete = true) {
-     {
-            if (shippingOrder == null)
-                throw new ArgumentNullException(nameof(shippingOrder), "L'ordre d'expédition ne peut pas être nul.");
-            try {
-                if (hardDelete) {
-                    dao.Delete(shippingOrder);
-                    view.DisplayMessage("L'ordre d'expédition a été supprimé définitivement.");
-                } else {
-                    shippingOrder.DateDeleted = DateTime.Now;
-                    dao.Equals(shippingOrder);
-                    view.DisplayMessage("L'ordre d'expédition a été marqué comme supprimé.");
-
-                }
-
-     }
-     public List<ShippingOrder> GetAllOrders()
-     {
-                try {
-                    return dao.GetAll();
-                } catch (Exception ex) {
-                    view.DisplayError($"Erreur lors de la récupération des ordres d'expédition");
-                    throw;
-                }
-     }
-            private void ValidateShippingOrder(ShippingOrder order) 
-     {
-                    if (order.SourceClientId <= 0)
-                        throw new Exception("L'ID du client source est invalide.");
-                    if (order.DestinationAddressId <= 0)
-                        throw new Exception("L'ID de l'adresse de destination est invalide.");
-                    if (order.CreatorEmployeeId <= 0)
-     }
-
+    public ShippingOrder Delete(ShippingOrder shippingOrder, bool hardDelete = true) {
+        return dao.Delete(shippingOrder, hardDelete);
+    }
+    public List<ShippingOrder> GetAllOrders() {
+        try {
+            return dao.GetAll();
+        } catch (Exception ex) {
+            throw;
+        }
+    }
+}
 
      
