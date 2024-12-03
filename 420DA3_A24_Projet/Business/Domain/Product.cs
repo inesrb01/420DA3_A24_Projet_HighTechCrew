@@ -32,7 +32,9 @@ namespace _420DA3_A24_Projet.Business.Domain;
         
         public int OwnerClientId { get; set; }
 
-        public int SupplierId { get; set; }
+     
+
+    public int SupplierId { get; set; }
         
 
         public virtual List<PurchaseOrder> PurchaseOrders { get; set; } = new(); 
