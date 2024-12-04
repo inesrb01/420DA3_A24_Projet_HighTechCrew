@@ -22,6 +22,8 @@ namespace _420DA3_A24_Projet.Business.Domain
         public DateTime? DateModified { get; set; }
         public DateTime? DateDeleted { get; set; }
         public byte[] RowVersion { get; set; }
+        public int WarehouseId {  get; set; }
+        public virtual Warehouse Warehouse { get; set; }
         public virtual Warehouse AssignedWarehouse { get; set; }
         public virtual List<Product> Products { get; set; }
         public virtual List<ShippingOrder> Orders { get; set; }

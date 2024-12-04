@@ -386,14 +386,8 @@ internal class AppDbContext : DbContext {
             .WithMany(s => s.Products)
             .HasForeignKey(p => p.SupplierId)
             .OnDelete(DeleteBehavior.Restrict);
+        
 
-
-
-
-
-        // TODO @TOUT_LE_MONDE: configurez vous entités ici
-
-        // classe client 
         
 
 
@@ -405,7 +399,124 @@ internal class AppDbContext : DbContext {
 
 
 
-            // TODO @TOUT_LE_MONDE: configurez les relations entre les entités ici
+
+        // TODO @TOUT_LE_MONDE: configurez vous entités ici
+
+        // classe client 
+    public DbSet<Client> Clients { get; set; }
+    public DbSet<Warehouse> Warehouses { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
+        base.OnConfiguring(optionsBuilder);
+
+        string connString = ConfigurationManager.ConnectionStrings["ProjectDatabase"]?.ConnectionString
+            ?? throw new Exception("No connection string found for key [ProjectDatabase]");
+
+        optionsBuilder.UseSqlServer(connString).UseLazyLoadingProxies();
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder) {
+        base.OnModelCreating(modelBuilder);
+
+        // Configuration pour Client
+        modelBuilder.Entity<Client>()
+            .ToTable(nameof(Clients))
+            .HasKey(x => x.Id);
+
+        modelBuilder.Entity<Client>()
+            .Property(x => x.Id)
+            .HasColumnName(nameof(Client.Id))
+            .HasColumnType("int")
+            .UseIdentityColumn(1, 1);
+
+        modelBuilder.Entity<Client>()
+            .Property(x => x.ClientName)
+            .HasColumnName(nameof(Client.ClientName))
+            .HasColumnType("nvarchar(128)")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Client>()
+            .Property(x => x.DateCreated)
+            .HasColumnName(nameof(Client.DateCreated))
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .HasDefaultValueSql("GETDATE()")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Client>()
+            .Property(x => x.DateModified)
+            .HasColumnName(nameof(Client.DateModified))
+            .HasColumnType("datetime2")
+            .HasPrecision(7);
+
+        modelBuilder.Entity<Client>()
+            .Property(x => x.DateDeleted)
+            .HasColumnName(nameof(Client.DateDeleted))
+            .HasColumnType("datetime2")
+            .HasPrecision(7);
+
+        modelBuilder.Entity<Client>()
+            .Property(x => x.RowVersion)
+            .HasColumnName(nameof(Client.RowVersion))
+            .IsRowVersion();
+
+        // Configuration pour Warehouse
+        modelBuilder.Entity<Warehouse>()
+            .ToTable(nameof(Warehouses))
+            .HasKey(x => x.Id);
+
+        modelBuilder.Entity<Warehouse>()
+            .Property(x => x.Id)
+            .HasColumnName(nameof(Warehouse.Id))
+            .HasColumnType("int")
+            .UseIdentityColumn(1, 1);
+
+        modelBuilder.Entity<Warehouse>()
+            .Property(x => x.WarehouseName)
+            .HasColumnName(nameof(Warehouse.WarehouseName))
+            .HasColumnType("nvarchar(128)")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Warehouse>()
+            .Property(x => x.AddressId)
+            .HasColumnName(nameof(Warehouse.AddressId))
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Warehouse>()
+            .Property(x => x.DateCreated)
+            .HasColumnName(nameof(Warehouse.DateCreated))
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .HasDefaultValueSql("GETDATE()")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Warehouse>()
+            .Property(x => x.DateModified)
+            .HasColumnName(nameof(Warehouse.DateModified))
+            .HasColumnType("datetime2")
+            .HasPrecision(7);
+
+        modelBuilder.Entity<Warehouse>()
+            .Property(x => x.DateDeleted)
+            .HasColumnName(nameof(Warehouse.DateDeleted))
+            .HasColumnType("datetime2")
+            .HasPrecision(7);
+
+        modelBuilder.Entity<Warehouse>()
+            .Property(x => x.RowVersion)
+            .HasColumnName(nameof(Warehouse.RowVersion))
+            .IsRowVersion();
+
+
+
+        // TODO @TOUT_LE_MONDE: configurez les relations entre les entités ici
+
+        modelBuilder.Entity<Warehouse>()
+               .HasMany(w => w.Clients)
+               .WithOne(c => c.Warehouse)
+               .HasForeignKey(c => c.WarehouseId)
+               .OnDelete(DeleteBehavior.Restrict);
 
 
 
@@ -414,9 +525,26 @@ internal class AppDbContext : DbContext {
 
 
 
-            // TODO @TOUT_LE_MONDE: ajouter l'insertion de données initiales ici
+
+        // TODO @TOUT_LE_MONDE: ajouter l'insertion de données initiales ici
+        modelBuilder.Entity<Warehouse>().HasData(new Warehouse {
+            Id = 1,
+            WarehouseName = "Main Warehouse",
+            AddressId = 1,
+            DateCreated = DateTime.Now
+        });
+
+        modelBuilder.Entity<Client>().HasData(new Client {
+            Id = 1,
+            ClientName = "Default Client",
+            WarehouseId = 1,
+            DateCreated = DateTime.Now
+        });
 
     }
 }
+
+        
+
 
 
