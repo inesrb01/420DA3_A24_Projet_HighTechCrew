@@ -15,26 +15,26 @@ internal class ClientDao
         _context = context;
     }
 
-    public List<client> GetAllClients() {
+    public List<Client> GetAllClients() {
         return _context.Clients.ToList();
     }
 
-    public client GetClientById(int id) {
+    public Client GetClientById(int id) {
         return _context.Clients.FirstOrDefault(c => c.idClient == id);
     }
 
-    public void AddClient(client newClient) {
+    public void AddClient(Client newClient) {
         _context.Clients.Add(newClient);
         _context.SaveChanges();
     }
 
-    public void UpdateClient(client updatedClient) {
+    public void UpdateClient(Client updatedClient) {
         _context.Clients.Update(updatedClient);
         _context.SaveChanges();
     }
 
     public void DeleteClient(int id) {
-        client client = _context.Clients.FirstOrDefault(c => c.idClient == id);
+        Client client = _context.Clients.FirstOrDefault(c => c.idClient == id);
         if (client != null) {
             _context.Clients.Remove(client);
             _context.SaveChanges();

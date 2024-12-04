@@ -1,5 +1,6 @@
 ﻿using _420DA3_A24_Projet.Business.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -182,14 +183,10 @@ internal class AppDbContext : DbContext {
 
         // TODO @TOUT_LE_MONDE: configurez vous entités ici
 
+        // classe client 
+        
 
 
-
-
-
-
-
-        // TODO @TOUT_LE_MONDE: configurez les relations entre les entités ici
 
 
 
@@ -198,9 +195,18 @@ internal class AppDbContext : DbContext {
 
 
 
-        // TODO @TOUT_LE_MONDE: ajouter l'insertion de données initiales ici
+            // TODO @TOUT_LE_MONDE: configurez les relations entre les entités ici
 
+
+
+
+
+
+
+
+            // TODO @TOUT_LE_MONDE: ajouter l'insertion de données initiales ici
+
+
+        }
 
     }
-
-}
