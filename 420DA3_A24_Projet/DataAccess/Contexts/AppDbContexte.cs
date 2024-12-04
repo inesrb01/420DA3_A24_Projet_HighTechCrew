@@ -129,7 +129,7 @@ internal class AppDbContexte : DbContext {
             .HasColumnType("int")
             .UseIdentityColumn(1, 1);
 
-        modelBuilder.Entity<ShippingOrder>()
+        modelBuilder.Entity<Shipment>()
             .Property(x => x.Status)
             .HasColumnName(nameof(Shipment.Status))
             .HasColumnOrder(1)

@@ -14,4 +14,12 @@ internal partial class ShippingOrderView : Form {
     public ShippingOrderView(WsysApplication application) {
         InitializeComponent();
     }
+
+    private void label1_Click(object sender, EventArgs e) {
+
+    }
+
+    private void centre_Paint(object sender, PaintEventArgs e) {
+
+    }
 }
