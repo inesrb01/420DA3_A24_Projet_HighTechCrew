@@ -1,34 +1,71 @@
-﻿namespace _420DA3_A24_Projet.Presentation.Views;
+﻿using _420DA3_A24_Projet.Business.Services;
+
+namespace _420DA3_A24_Projet.Presentation.Views;
 
 partial class ProductView {
-    /// <summary>
-    /// Required designer variable.
-    /// </summary>
-    private System.ComponentModel.IContainer components = null;
+    private readonly ProductService _productService;
 
-    /// <summary>
-    /// Clean up any resources being used.
-    /// </summary>
-    /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-    protected override void Dispose(bool disposing) {
-        if (disposing && (components != null)) {
-            components.Dispose();
+   
+
+    private void ProductView_Load(object sender, EventArgs e) {
+        LoadProducts();
+    }
+
+   
+    private void LoadProducts() {
+        var products = _productService.GetAll();
+        productDataGridView.DataSource = products.Select(p => new
+        {
+            p.Id,
+            p.ProductName,
+            p.UpcCode,
+            p.InStockQty,
+            p.DesiredQty,
+            SupplierName = p.Supplier?.SupplierName
+        }).ToList();
+    }
+
+   
+
+    private void btnEditProduct_Click(object sender, EventArgs e) {
+        if (productDataGridView.SelectedRows.Count > 0) {
+            var id = (int) productDataGridView.SelectedRows[0].Cells["Id"].Value;
+            var product = _productService.GetById(id);
         }
-        base.Dispose(disposing);
     }
 
-    #region Windows Form Designer generated code
-
-    /// <summary>
-    /// Required method for Designer support - do not modify
-    /// the contents of this method with the code editor.
-    /// </summary>
-    private void InitializeComponent() {
-        this.components = new System.ComponentModel.Container();
-        this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-        this.ClientSize = new System.Drawing.Size(800, 450);
-        this.Text = "ProduitsView";
+    private void btnDeleteProduct_Click(object sender, EventArgs e) {
+        if (productDataGridView.SelectedRows.Count > 0) {
+            var id = (int) productDataGridView.SelectedRows[0].Cells["Id"].Value;
+            var confirm = MessageBox.Show("Êtes-vous sûr de vouloir supprimer ce produit ?", "Confirmation", MessageBoxButtons.YesNo);
+            if (confirm == DialogResult.Yes) {
+                _productService.Delete(id);
+                LoadProducts();
+            }
+        } else {
+            MessageBox.Show("Veuillez sélectionner un produit.");
+        }
     }
 
-    #endregion
+    private void btnSearch_Click(object sender, EventArgs e) {
+        var filter = txtSearch.Text;
+        var products = _productService.Search(filter);
+        productDataGridView.DataSource = products.Select(p => new
+        {
+            p.Id,
+            p.ProductName,
+            p.UpcCode,
+            p.InStockQty,
+            p.DesiredQty,
+            SupplierName = p.Supplier?.SupplierName
+        }).ToList();
+    }
+
+    private DataGridView productDataGridView;
+    private Button btnAddProduct;
+    private Button btnEditProduct;
+    private Button button1;
+    private Button btnSearch;
+    private TextBox txtSearch;
+    private Label lblSearch;
 }

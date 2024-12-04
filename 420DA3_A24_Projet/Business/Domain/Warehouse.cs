@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Azure.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,20 @@ namespace _420DA3_A24_Projet.Business.Domain;
 // TODO @INES: renommer les classes et propriétés pour respecter les conventions de casse C# (PascalCase)
 // TODO @INES: Les noms de classes ne devraient pas être au pluriel
 // TODO @INES: rendre la classe public et non internal
-internal class entrepots { // Entrepot
-    public int entrepotID { get; set; } // EntrepotID ou juste Id
-    public string Nom { get; set; }
-    public string entrepotAddresse  {get;set; } // TODO @INES: Devrait être nommé AddressId (pour respecter requis EF Core) et être de type int
-    public string entrepotlieu { get; set; } // TODO @INES: propriété non-requise, à supprimer
+public class Warehouse { // Entrepot
+    public int Id { get; set; } // EntrepotID ou juste Id
+    public string WarehouseName { get; set; }
+    public int AddressId  {get;set; } // TODO @INES: Devrait être nommé AddressId (pour respecter requis EF Core) et être de type int
+
+    public DateTime DateCreated { get; set; }
+
+    public DateTime DateDeleted { get; set; }
+
+    public DateTime DateModified { get; set; }
+
+
+
+
 
     // UNDONE @INES: Il manque des propriétés de données:
     // DateCreated, type DateTime
@@ -22,10 +32,11 @@ internal class entrepots { // Entrepot
     // RowVersion, type byte[]
 
 
+
+
     // TODO @INES: toutes les propriétés de navigation devraient avoir le modificateur 'virtual'
 
 
-    public List<Produit> Produits { get; set; } // TODO @INES: propriété non-requise, à supprimer. c'est le client qui a une liste de produits, l'entrepot a uen liste de clients
 
     // UNDONE @INES: Il manque des propriétés de navigation:
     // Clients, type List<Client>
@@ -33,12 +44,16 @@ internal class entrepots { // Entrepot
     // PurchaseOrders, type List<PurchaseOrder>
     // WarehouseEmployuees, type List<User>
 
+    public List<Client> Clients { get; set; } = new List<Client>();
 
 
 
-    public entrepots() 
+
+
+
+    public Warehouse() 
     {
-        Produits= new List<Produit> (); // TODO @INES: initialiser les propriétés de type List directement, pas dans les constructeurs
+
     }
 
 
@@ -48,7 +63,7 @@ internal class entrepots { // Entrepot
     // TODO @INES: le constructeur orienté EF Core devrait prendre en paramètre toutes les propriétés de données.
     // aussi, vérifier que leurs noms respectent les requis de EF Core
     // (même nom que la propriété, sauf la première lettre qui peut être en minuscule)
-    public entrepots(int entrepotID, string Nom, string Lieu, string Adresse) 
+    public Warehouse(int entrepotID, string Nom, string Lieu, string Adresse) 
     {
 
         // TODO @INES: il faut utiliser this pour distinguer les propriétés des paramètres: assignation circulaires ici

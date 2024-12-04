@@ -11,7 +11,12 @@ namespace _420DA3_A24_Projet.DataAccess.Contexts;
 internal class AppDbContexte : DbContext {
     public DbSet<ShippingOrder> ShippingOrders { get; set; }
     public DbSet< Shipment> Shipments { get; set; }
+    public DbSet<Address> Addresses { get; set; }
     public DbSet<ShippingOrderProduct> ShippingOrderProducts { get; set; } // TODO @SOMEONE: completer une classe-pivot ShippingOrderProduct
+
+    public DbSet<Product> Products { get; set; }
+    public DbSet<Supplier> Suppliers { get; set; }
+
 
     // TODO @TOUT_LE_MONDE: ajouter des DbSet pour les autres classes du domaine
 
@@ -26,7 +31,8 @@ internal class AppDbContexte : DbContext {
 
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder) {
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<ShippingOrder>()
@@ -124,7 +130,7 @@ internal class AppDbContexte : DbContext {
 
         modelBuilder.Entity<Shipment>()
             .Property(x => x.Id)
-            .HasColumnName(nameof (Shipment.Id))
+            .HasColumnName(nameof(Shipment.Id))
             .HasColumnOrder(0)
             .HasColumnType("int")
             .UseIdentityColumn(1, 1);
@@ -182,6 +188,206 @@ internal class AppDbContexte : DbContext {
             .IsRequired(false);
 
 
+        //  Supplier
+        modelBuilder.Entity<Supplier>()
+            .ToTable(nameof(Suppliers))
+            .HasKey(x => x.Id);
+
+        modelBuilder.Entity<Supplier>()
+            .Property(x => x.Id)
+            .HasColumnName(nameof(Supplier.Id))
+            .HasColumnOrder(0)
+            .HasColumnType("int")
+            .UseIdentityColumn(1, 1);
+
+        modelBuilder.Entity<Supplier>()
+            .Property(x => x.SupplierName)
+            .HasColumnName(nameof(Supplier.SupplierName))
+            .HasColumnOrder(1)
+            .HasColumnType($"nvarchar({Supplier.SupplierNameMaxLength})")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Supplier>()
+            .Property(x => x.ContactFirstName)
+            .HasColumnName(nameof(Supplier.ContactFirstName))
+            .HasColumnOrder(2)
+            .HasColumnType($"nvarchar({Supplier.ContactFirstNameMaxLength})")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Supplier>()
+            .Property(x => x.ContactLastName)
+            .HasColumnName(nameof(Supplier.ContactLastName))
+            .HasColumnOrder(3)
+            .HasColumnType($"nvarchar({Supplier.ContactLastNameMaxLength})")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Supplier>()
+            .Property(x => x.ContactEmail)
+            .HasColumnName(nameof(Supplier.ContactEmail))
+            .HasColumnOrder(4)
+            .HasColumnType($"nvarchar({Supplier.ContactEmailMaxLength})")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Supplier>()
+            .Property(x => x.ContactTelephone)
+            .HasColumnName(nameof(Supplier.ContactTelephone))
+            .HasColumnOrder(5)
+            .HasColumnType($"nvarchar({Supplier.ContactTelephoneMaxLength})")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Supplier>()
+            .Property(x => x.DateCreated)
+            .HasColumnName(nameof(Supplier.DateCreated))
+            .HasColumnOrder(6)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .HasDefaultValueSql("GETDATE()")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Supplier>()
+            .Property(x => x.DateModified)
+            .HasColumnName(nameof(Supplier.DateModified))
+            .HasColumnOrder(7)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        modelBuilder.Entity<Supplier>()
+            .Property(x => x.DateDeleted)
+            .HasColumnName(nameof(Supplier.DateDeleted))
+            .HasColumnOrder(8)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        modelBuilder.Entity<Supplier>()
+            .Property(x => x.RowVersion)
+            .HasColumnName(nameof(Supplier.RowVersion))
+            .HasColumnOrder(9)
+            .IsRowVersion();
+
+        // Product
+        modelBuilder.Entity<Product>()
+            .ToTable(nameof(Products))
+            .HasKey(x => x.Id);
+
+        modelBuilder.Entity<Product>()
+            .Property(x => x.Id)
+            .HasColumnName(nameof(Product.Id))
+            .HasColumnOrder(0)
+            .HasColumnType("int")
+            .UseIdentityColumn(1, 1);
+
+        modelBuilder.Entity<Product>()
+            .Property(x => x.UpcCode)
+            .HasColumnName(nameof(Product.UpcCode))
+            .HasColumnOrder(1)
+            .HasColumnType("nvarchar(64)")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Product>()
+            .Property(x => x.ProductName)
+            .HasColumnName(nameof(Product.ProductName))
+            .HasColumnOrder(2)
+            .HasColumnType("nvarchar(128)")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Product>()
+            .Property(x => x.ProductDescription)
+            .HasColumnName(nameof(Product.ProductDescription))
+            .HasColumnOrder(3)
+            .HasColumnType("nvarchar(max)")
+            .IsRequired(false);
+
+        modelBuilder.Entity<Product>()
+            .Property(x => x.ImageFileName)
+            .HasColumnName(nameof(Product.ImageFileName))
+            .HasColumnOrder(4)
+            .HasColumnType("nvarchar(256)")
+            .IsRequired(false);
+
+        modelBuilder.Entity<Product>()
+            .Property(x => x.SupplierCode)
+            .HasColumnName(nameof(Product.SupplierCode))
+            .HasColumnOrder(5)
+            .HasColumnType("nvarchar(64)")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Product>()
+            .Property(x => x.InStockQty)
+            .HasColumnName(nameof(Product.InStockQty))
+            .HasColumnOrder(6)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Product>()
+            .Property(x => x.DesiredQty)
+            .HasColumnName(nameof(Product.DesiredQty))
+            .HasColumnOrder(7)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Product>()
+            .Property(x => x.WeightInKg)
+            .HasColumnName(nameof(Product.WeightInKg))
+            .HasColumnOrder(8)
+            .HasColumnType("float")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Product>()
+            .Property(x => x.DateCreated)
+            .HasColumnName(nameof(Product.DateCreated))
+            .HasColumnOrder(9)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .HasDefaultValueSql("GETDATE()")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Product>()
+            .Property(x => x.DateModified)
+            .HasColumnName(nameof(Product.DateModified))
+            .HasColumnOrder(10)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        modelBuilder.Entity<Product>()
+            .Property(x => x.DateDeleted)
+            .HasColumnName(nameof(Product.DateDeleted))
+            .HasColumnOrder(11)
+            .HasColumnType("datetime2")
+            .HasPrecision(7)
+            .IsRequired(false);
+
+        modelBuilder.Entity<Product>()
+            .Property(x => x.RowVersion)
+            .HasColumnName(nameof(Product.RowVersion))
+            .HasColumnOrder(12)
+            .IsRowVersion();
+
+        modelBuilder.Entity<Product>()
+            .Property(x => x.OwnerClientId)
+            .HasColumnName(nameof(Product.OwnerClientId))
+            .HasColumnOrder(13)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        modelBuilder.Entity<Product>()
+            .Property(x => x.SupplierId)
+            .HasColumnName(nameof(Product.SupplierId))
+            .HasColumnOrder(14)
+            .HasColumnType("int")
+            .IsRequired(true);
+
+        // Relations
+        modelBuilder.Entity<Product>()
+            .HasOne(p => p.Supplier)
+            .WithMany(s => s.Products)
+            .HasForeignKey(p => p.SupplierId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+
+
 
 
         // TODO @TOUT_LE_MONDE: configurez vous entités ici
@@ -204,7 +410,7 @@ internal class AppDbContexte : DbContext {
 
         // TODO @TOUT_LE_MONDE: ajouter l'insertion de données initiales ici
 
-
     }
-
 }
+
+

@@ -14,7 +14,7 @@ public enum PurchaseOrderStatusEnum {
     Rejected,
     Completed
 }
-public class PurshaseOrder {
+public class PurchaseOrder {
 
 
     // Attributs de la Classe PurshaseOrder 
@@ -28,6 +28,8 @@ public class PurshaseOrder {
     public DateTime? DateModified { get; set; }
     public DateTime? DateDeleted { get; set; }
 
+    public Warehouse Entrepot { get; set; }
+
     // UNDONE @BRAHEM: ajouter une propriété anti-concurrence RowVersion, type byte[]
 
     // Associations
@@ -40,7 +42,19 @@ public class PurshaseOrder {
 
     // UNDONE @BRAHEM: créer 2 constructeurs: 1 orienté création par utilisateurs, 1 orienté EF Core
 
+    public PurchaseOrder(int ProductId, int WarehouseId , int Quantity) {
+        ProductId = ProductId;
+        WarehouseId = WarehouseId;
+        Quantity = Quantity;
+        Status = PurchaseOrderStatusEnum.Pending;
+        DateCreated = DateTime.Now;
 
+    }
+
+    // Constructeur orienté EF Core (sans paramètres explicites)
+    public PurchaseOrder() {
+
+    }
 
 
     // Methode Complete pour 
