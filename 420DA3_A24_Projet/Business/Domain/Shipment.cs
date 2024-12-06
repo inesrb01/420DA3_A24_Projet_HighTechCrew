@@ -11,7 +11,7 @@ using System.Web;
 namespace _420DA3_A24_Projet.Business.Domain;
 public class Shipment {
 
-    private string _trackingNumber;
+    private string trackingNumber = null!;
 
     // TODO @HAJAR: renommer la constante pour respecter les convention de casse de C# pour les membres publics (PascalCase)
     public const int TrackingNumberMaxLength = 50; // TrackingNumberMaxLength
@@ -23,12 +23,12 @@ public class Shipment {
     // TODO @HAJAR: valider la valeur assignée à la propriété dans le 'set' de TrackingNumber
    
     public string TrackingNumber {
-        get => _trackingNumber;
+        get => trackingNumber;
         set 
         {
             if (ValidateTrackingNumber(value)) 
             {
-                _trackingNumber= value;
+                trackingNumber= value;
             }
             else
             {
@@ -40,8 +40,8 @@ public class Shipment {
     public DateTime DateCreated { get; set; }
     public DateTime? DateModified { get; set; }
     public DateTime? DateDeleted { get; set; }
-    public byte[] RowVersion { get; set; }
-    public virtual ShippingOrder ShippingOrder { get; set; }
+    public byte[] RowVersion { get; set; } = null!;
+    public virtual ShippingOrder ShippingOrder { get; set; } = null!;
 
 
     // TODO @HAJAR: supprimer le paramètre trackingNumber de ce constructeur-ci
@@ -53,7 +53,7 @@ public class Shipment {
         // this.TrackingNumber = TrackingNumberFactory.GetInstance().GetNewTrackingNumber(shippingService);
         this.TrackingNumber = TrackingNumberFactory.GetInstance().GetNewTrackingNumber(shippingService);
         this.Status = ShipmentStatusEnum.New;
-        this.DateCreated = DateTime.Now;
+     
     }
 
     protected Shipment(
@@ -66,9 +66,10 @@ public class Shipment {
         DateTime? dateModified,
         DateTime? dateDeleted,
         byte[] rowVersion)
-        : this(shippingOrderId, shippingService, trackingNumber) 
+       
       {
-
+        this.ShippingService = shippingService;
+        this.ShippingOrderId = shippingOrderId;
         this.Id = id;
         this.Status = status;
         this.DateCreated = dateCreated;
