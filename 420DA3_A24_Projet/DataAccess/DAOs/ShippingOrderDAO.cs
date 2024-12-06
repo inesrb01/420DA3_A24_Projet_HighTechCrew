@@ -10,22 +10,22 @@ using System.Threading.Tasks;
 
 namespace _420DA3_A24_Projet.DataAccess.DAOs;
 internal class ShippingOrderDAO {
-    private readonly AppDbContext _context;
+    private readonly AppDbContext context;
 
     public ShippingOrderDAO(AppDbContext context) {
-        _context = context ?? throw new ArgumentNullException(nameof(context));
+        this.context = context ?? throw new ArgumentNullException(nameof(context));
 
     }
     public ShippingOrder Create(ShippingOrder shippingOrder)
     {
       if (shippingOrder == null) throw new ArgumentNullException(nameof(shippingOrder), "L'ordre d'expédition ne peut pas être nul.");
-        _context.ShippingOrders.Add(shippingOrder);
-        _context.SaveChanges();
+        context.ShippingOrders.Add(shippingOrder);
+        context.SaveChanges();
         return shippingOrder;
     }
     public List<ShippingOrder> Search(string keyword)
     {
-        return this._context.ShippingOrders
+        return this.context.ShippingOrders
     .Include(so => so.SourceClient)
         .ThenInclude(client => client.Entrepot)
     .Include(so => so.CreatorEmployee)
@@ -49,8 +49,8 @@ internal class ShippingOrderDAO {
     public ShippingOrder Update(ShippingOrder shippingOrder)
     {
 
-        _context.ShippingOrders.Update(shippingOrder);
-        _context.SaveChanges();
+        context.ShippingOrders.Update(shippingOrder);
+        context.SaveChanges();
 
         return shippingOrder;
 
@@ -61,15 +61,15 @@ internal class ShippingOrderDAO {
 
         if (hardDelete) 
         {
-            _context.ShippingOrders.Remove(shippingOrder);
+            context.ShippingOrders.Remove(shippingOrder);
 
         }
         else 
         {
             shippingOrder.DateDeleted = DateTime.Now;
-            _context.ShippingOrders.Update(shippingOrder);
+            context.ShippingOrders.Update(shippingOrder);
         }
-        _context.SaveChanges();
+        context.SaveChanges();
         return shippingOrder;
     }
     public ShippingOrder? GetById(int id) 
@@ -77,7 +77,7 @@ internal class ShippingOrderDAO {
         if (id <= 0)
             throw new ArgumentException("L'ID doit être supérieur à zéro.", nameof(id));
 
-        return _context.ShippingOrders
+        return context.ShippingOrders
             .Include(so => so.SourceClient)
             .Include(so => so.DestinationAddress)
             .Include(so => so.CreatorEmplyee)
@@ -87,7 +87,7 @@ internal class ShippingOrderDAO {
     }
     public List<ShippingOrder> GetAll() 
     {
-        return _context.ShippingOrders
+        return context.ShippingOrders
                 .Where(so => so.DateDeleted == null)
                 .Include(so => so.SourceClient)
                 .Include(so => so.DestinationAddress)
