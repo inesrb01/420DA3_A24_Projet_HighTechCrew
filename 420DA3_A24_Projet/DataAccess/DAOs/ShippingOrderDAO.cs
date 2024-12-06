@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace _420DA3_A24_Projet.DataAccess.DAOs;
 internal class ShippingOrderDAO {
-    private readonly AppDbContexte _context;
+    private readonly AppDbContext _context;
 
-    public ShippingOrderDAO(AppDbContexte context) {
+    public ShippingOrderDAO(AppDbContext context) {
         _context = context ?? throw new ArgumentNullException(nameof(context));
 
     }
