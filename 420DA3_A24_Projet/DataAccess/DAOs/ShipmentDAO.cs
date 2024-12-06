@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace _420DA3_A24_Projet.DataAccess.DAOs;
 internal class ShipmentDAO {
-    private readonly AppDbContexte context;
-    public ShipmentDAO(AppDbContexte context) 
+    private readonly AppDbContext context;
+    public ShipmentDAO(AppDbContext context) 
     {
         this.context = context;throw new ArgumentNullException(nameof(context));
     }

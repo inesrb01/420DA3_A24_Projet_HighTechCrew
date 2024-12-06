@@ -22,9 +22,10 @@ public class ShippingOrder {
     public DateTime? DateModified { get; set; }
     public DateTime? DateDeleted { get; set; }
     public byte[] RowVersion { get; set; }
-    public virtual client SourceClient { get; set; }
+    public virtual Client SourceClient { get; set; }
     public virtual User CreatorEmplyee { get; set; }
     public  virtual User? FulfillEmployee { get; set; }
+    public virtual Shipment? Shipment { get; set; }
     public virtual Address DestinationAddress { get; set; }
 
     public virtual List<ShippingOrderProduct> ShippingOrderProducts { get; set; } = new List<ShippingOrderProduct>();

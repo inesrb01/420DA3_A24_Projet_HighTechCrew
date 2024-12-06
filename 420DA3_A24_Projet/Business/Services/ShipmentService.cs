@@ -15,9 +15,9 @@ internal class ShipmentService
     private WsysApplication parentApp;
     private ShipmentDAO dao;
     private ShipmentView view;
-    private AppDbContexte context;
+    private AppDbContext context;
 
-    public ShipmentService(WsysApplication application, AppDbContexte contexte)
+    public ShipmentService(WsysApplication application, AppDbContext contexte)
     {
         this.parentApp = parentApp;
         this.context = context;

@@ -14,7 +14,7 @@ internal class ShippingOrderService {
     private WsysApplication parentApp;
     private ShippingOrderDAO dao;
     private ShippingOrderView view;
-    private AppDbContexte context;
+    private AppDbContext context;
 
     /// <summary>
     ///   hajar      
@@ -23,7 +23,7 @@ internal class ShippingOrderService {
     /// <param name="context"></param>
 
 
-    public ShippingOrderService(WsysApplication parentApp, AppDbContexte context) {
+    public ShippingOrderService(WsysApplication parentApp, AppDbContext context) {
         this.parentApp = parentApp;
         this.context = context;
         this.dao = new ShippingOrderDAO(context);
@@ -53,7 +53,7 @@ internal class ShippingOrderService {
                     modification.ShippingOrderProduct.Product.InStockQty -= modification.ShippingOrderProduct.Quantity;
                     context.ShippingOrderProducts.Add(modification.ShippingOrderProduct);
                     if (modification.ShippingOrderProduct.Product.InStockQty < modification.ShippingOrderProduct.Product.DesiredQty * 0.5) {
-                        PurshaseOrder newPO = new PurshaseOrder();
+                        PurchaseOrder newPO = new PurchaseOrder();
                         newPO.Status = Domain.PurchaseOrderStatusEnum.Pending;
                         newPO.ProductId = modification.ShippingOrderProduct.Product.Id;
                         newPO.Quantity = (modification.ShippingOrderProduct.Product.DesiredQty - modification.ShippingOrderProduct.Product.InStockQty);
@@ -67,7 +67,7 @@ internal class ShippingOrderService {
                         modification.ShippingOrderProduct.Quantity = modification.NewQuantity;
 
                         if (modification.ShippingOrderProduct.Product.InStockQty < modification.ShippingOrderProduct.Product.DesiredQty * 0.5) {
-                            PurshaseOrder newPO = new PurshaseOrder();
+                            PurchaseOrder newPO = new PurchaseOrder();
                             newPO.Status = Domain.PurchaseOrderStatusEnum.Pending;
                             newPO.ProductId = modification.ShippingOrderProduct.Product.Id;
                             newPO.Quantity = (modification.ShippingOrderProduct.Product.DesiredQty - modification.ShippingOrderProduct.Product.InStockQty);

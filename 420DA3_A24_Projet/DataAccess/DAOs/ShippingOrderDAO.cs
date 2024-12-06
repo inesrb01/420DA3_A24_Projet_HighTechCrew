@@ -26,24 +26,24 @@ internal class ShippingOrderDAO {
     public List<ShippingOrder> Search(string keyword)
     {
         return this.context.ShippingOrders
-    .Include(so => so.SourceClient)
-        .ThenInclude(client => client.Entrepot)
-    .Include(so => so.CreatorEmployee)
-    .Include(so => so.DestinationAddress)
-    .Include(so => so.Shipment)
-    .Include(so => so.ShippingOrderProducts)
-        .ThenInclude(sop => sop.Product)
-    .Where(so =>
-            so.Id.ToString().Contains(keyword)
-            || so.Status.ToString().ToLower().Contains(keyword.ToLower())
-            || so.SourceClient.NomCompagnie.ToLower().Contains(keyword.ToLower())
-            || so.DestinationAddress.Destinataire.ToLower().Contains(keyword.ToLower())
-            || so.ShippingOrderProducts.Any(sop => sop.Product.Id.ToString().Contains(keyword))
-            || so.ShippingOrderProducts.Any(sop => sop.Product.nomproduit.ToLower().Contains(keyword.ToLower()))
-            || ((so.Shipment == null || so.Shipment.CodeSuivi.ToLower().Contains(keyword.ToLower()))
-        && so.DateDeleted == null)
-    )
-    .ToList();
+            .Include(so => so.SourceClient)
+                .ThenInclude(client => client.Warehouse)
+            .Include(so => so.CreatorEmplyee)
+            .Include(so => so.DestinationAddress)
+            .Include(so => so.Shipment)
+            .Include(so => so.ShippingOrderProducts)
+                .ThenInclude(sop => sop.Product)
+            .Where(so =>
+                    so.Id.ToString().Contains(keyword)
+                    || so.Status.ToString().ToLower().Contains(keyword.ToLower())
+                    || so.SourceClient.ClientName.ToLower().Contains(keyword.ToLower())
+                    || so.DestinationAddress.Addressee.ToLower().Contains(keyword.ToLower())
+                    || so.ShippingOrderProducts.Any(sop => sop.Product.Id.ToString().Contains(keyword))
+                    || so.ShippingOrderProducts.Any(sop => sop.Product.ProductName.ToLower().Contains(keyword.ToLower()))
+                    || ((so.Shipment == null || so.Shipment.TrackingNumber.ToLower().Contains(keyword.ToLower()))
+                && so.DateDeleted == null)
+            )
+            .ToList();
 
     }
     public ShippingOrder Update(ShippingOrder shippingOrder)
