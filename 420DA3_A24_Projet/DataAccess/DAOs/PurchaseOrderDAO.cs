@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace _420DA3_A24_Projet.DataAccess.DAOs;
 internal class PurchaseOrderDAO {
 
-    private readonly AppDbContexte context;
+    private readonly AppDbContext context;
 
-    public PurchaseOrderDAO(AppDbContexte context) {
+    public PurchaseOrderDAO(AppDbContext context) {
         this.context = context;
     }
 

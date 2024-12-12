@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace _420DA3_A24_Projet.DataAccess.DAOs;
 internal class AdressDAO {
-    private readonly AppDbContexte context;
+    private readonly AppDbContext context;
 
-    public AdressDAO(AppDbContexte context) {
+    public AdressDAO(AppDbContext context) {
         this.context = context;
     }       
     public Address Create(Address address) {

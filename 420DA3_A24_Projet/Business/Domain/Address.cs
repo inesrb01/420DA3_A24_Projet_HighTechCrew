@@ -25,6 +25,8 @@ public class Address {
 
     public int Id { get; set; }
 
+    // TODO @BRAHEM: Ajouter une propriété AddressType de type AddressTypeEnum (Project_Utilities.Enums.AddressTypesEnum)
+
     public string Addressee {
         get { return this.addressee; }
         set {
@@ -88,7 +90,7 @@ public class Address {
     public string PostalCode {
         get { return this.postalCode; }
         set {
-            if(value.Length > POSTALCODE_MAX_LENGTH ) {
+            if (value.Length > POSTALCODE_MAX_LENGTH ) {
                 throw new ArgumentException($"Le code postal ne doit pas depacer {POSTALCODE_MAX_LENGTH} caracteres");
             }
             this.postalCode = value;
@@ -98,12 +100,21 @@ public class Address {
 
     public DateTime DateCreated { get; set; }
 
-    public DateTime?  DateModified { get ; set; }
+    public DateTime? DateModified { get; set; }
 
-    public DateTime? DateDeleted { get; set;}
+    public DateTime? DateDeleted { get; set; }
+
+    // TODO @BRAHEM: Ajouter unr propriété RowVersion de type byte[] pour contrer les erreurs de concurrence
+
+    // TODO @BRAHEM: Ajouter les propriétés de navigation:
+    // une de type entrepot-nullable (entrepots?) et une de type ShippingOrder-nullable (ShippingOrder?)
 
 
-    public  Address(string addressee, string civicNumber, string street, string city, string state, string country, string postalCode) {
+
+
+
+
+    public Address(string addressee, string civicNumber, string street, string city, string state, string country, string postalCode) {
         this.Addressee = addressee;
         this.CivicNumber = civicNumber;
         this.Street = street;
@@ -115,6 +126,7 @@ public class Address {
 
 
     // Constructeur utilisé par Entity Framework
+    // TODO @BRAHEM: Ajouter des paramètres pour les propriétés AddressType et RowVersion
     protected Address(int id, string addressee, string civicNumber, string street, string city, string state, string country, string postalCode, DateTime dateCreated, DateTime? dateModified, DateTime? dateDeleted)
         : this(addressee, civicNumber, street, city, state, country, postalCode) {
         this.Id = id;
@@ -124,6 +136,7 @@ public class Address {
     }
 
     // Méthodes de validation
+    // TODO @BRAHEM: Suggestion, utiliser ces méthodes de validation dans la validation de vos propriétés
     public static bool ValidateCivicNumber(string civicNumber) => (civicNumber.Length <= CIVICNUMBER_MAX_LENGTH);
     public static bool ValidateStreet(string street) => street.Length <= STREET_MAX_LENGTH;
     public static bool ValidateCity(string city) => city.Length <= CITY_MAX_LENGTH;

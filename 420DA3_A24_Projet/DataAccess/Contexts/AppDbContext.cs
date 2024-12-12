@@ -14,7 +14,7 @@ internal class AppDbContext : DbContext {
     public DbSet<ShippingOrder> ShippingOrders { get; set; }
     public DbSet< Shipment> Shipments { get; set; }
     public DbSet<Address> Addresses { get; set; }
-    public DbSet<PurshaseOrder> PurshaseOrders { get; set; }
+    public DbSet<PurchaseOrder> PurshaseOrders { get; set; }
     public DbSet<ShippingOrderProduct> ShippingOrderProducts { get; set; } // TODO @SOMEONE: completer une classe-pivot ShippingOrderProduct
 
     public DbSet<Product> Products { get; set; }
