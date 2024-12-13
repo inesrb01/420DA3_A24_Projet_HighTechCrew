@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Project_Utilities.Enums;
 namespace _420DA3_A24_Projet.Business.Domain;
 public class Address {
 
@@ -26,11 +27,12 @@ public class Address {
     public int Id { get; set; }
 
     // TODO @BRAHEM: Ajouter une propriété AddressType de type AddressTypeEnum (Project_Utilities.Enums.AddressTypesEnum)
+    //public AddressTypeEnum AddressType { get; set; }
 
     public string Addressee {
         get { return this.addressee; }
         set {
-            if (value.Length > ADDRESSEE_MAX_LENGTH) {
+            if (!ValidateAddressee(value)) {
                 throw new ArgumentException($"Le nom du destinataire ne peut pas dépasser {ADDRESSEE_MAX_LENGTH} caractères.");
             }
             this.addressee = value;
@@ -40,7 +42,7 @@ public class Address {
     public string CivicNumber {
         get { return this.civicNumber; }
         set {
-            if (value.Length > CIVICNUMBER_MAX_LENGTH) {
+            if (!ValidateCivicNumber(value)) {
                 throw new ArgumentException($"Le numéro civique ne peut pas dépasser {CIVICNUMBER_MAX_LENGTH} caractères.");
             }
             this.civicNumber = value;
@@ -50,7 +52,7 @@ public class Address {
     public string Street {
         get { return this.street; }
         set {
-            if (value.Length > STREET_MAX_LENGTH) {
+            if (!ValidateStreet(value)) {
                 throw new ArgumentException($"Le nom de la rue ne peut pas dépasser {STREET_MAX_LENGTH} caractères.");
             }
             this.street = value;
@@ -60,7 +62,7 @@ public class Address {
     public string City {
         get { return this.city; }
         set {
-            if (value.Length > CITY_MAX_LENGTH) {
+            if (!ValidateCity(value)) {
                 throw new ArgumentException($"Le nom de la ville ne peut pas dépasser {CITY_MAX_LENGTH} caractères.");
             }
             this.city = value;
@@ -70,7 +72,7 @@ public class Address {
     public string State {
         get { return this.state; }
         set {
-            if (value.Length > STATE_MAX_LENGTH) {
+            if (!ValidateState(value)) {
                 throw new ArgumentException($"Le nom de l'état ne peut pas dépasser {STATE_MAX_LENGTH} caractères.");
             }
             this.state = value;
@@ -80,7 +82,7 @@ public class Address {
     public string Country {
         get { return this.country; }
         set {
-            if (value.Length > COUNTRY_MAX_LENGTH) {
+            if (!ValidateCountry(value)) {
                 throw new ArgumentException($"Le nom du pays ne peut pas dépasser {COUNTRY_MAX_LENGTH} caractères.");
             }
             this.country = value;
@@ -90,7 +92,7 @@ public class Address {
     public string PostalCode {
         get { return this.postalCode; }
         set {
-            if (value.Length > POSTALCODE_MAX_LENGTH ) {
+            if (!ValidatePostalCode(value)) {
                 throw new ArgumentException($"Le code postal ne doit pas depacer {POSTALCODE_MAX_LENGTH} caracteres");
             }
             this.postalCode = value;
@@ -103,11 +105,17 @@ public class Address {
     public DateTime? DateModified { get; set; }
 
     public DateTime? DateDeleted { get; set; }
+     
+    // TODO @BRAHEM: Ajouter unr propriété RowVersion de type byte[] pour contrer les erreurs de concurrence *** Done
 
-    // TODO @BRAHEM: Ajouter unr propriété RowVersion de type byte[] pour contrer les erreurs de concurrence
+    [Timestamp]
+    public byte[] RowVersion { get; set; }
 
     // TODO @BRAHEM: Ajouter les propriétés de navigation:
     // une de type entrepot-nullable (entrepots?) et une de type ShippingOrder-nullable (ShippingOrder?)
+    public ShippingOrder? OwnerShipOrder { get; set; }
+    public Warehouse? OwnerWareHouse { get; set; }  
+
 
 
 
@@ -127,7 +135,7 @@ public class Address {
 
     // Constructeur utilisé par Entity Framework
     // TODO @BRAHEM: Ajouter des paramètres pour les propriétés AddressType et RowVersion
-    protected Address(int id, string addressee, string civicNumber, string street, string city, string state, string country, string postalCode, DateTime dateCreated, DateTime? dateModified, DateTime? dateDeleted)
+    protected Address(int id, string addressee, string civicNumber, string street, string city, string state, string country, string postalCode, byte[] RowVersion ,DateTime dateCreated, DateTime? dateModified, DateTime? dateDeleted)
         : this(addressee, civicNumber, street, city, state, country, postalCode) {
         this.Id = id;
         this.DateCreated = dateCreated;
@@ -137,6 +145,7 @@ public class Address {
 
     // Méthodes de validation
     // TODO @BRAHEM: Suggestion, utiliser ces méthodes de validation dans la validation de vos propriétés
+    public static bool ValidateAddressee(string Addresse) => (Addresse.Length <= ADDRESSEE_MAX_LENGTH);
     public static bool ValidateCivicNumber(string civicNumber) => (civicNumber.Length <= CIVICNUMBER_MAX_LENGTH);
     public static bool ValidateStreet(string street) => street.Length <= STREET_MAX_LENGTH;
     public static bool ValidateCity(string city) => city.Length <= CITY_MAX_LENGTH;
