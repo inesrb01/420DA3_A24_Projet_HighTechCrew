@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace _420DA3_A24_Projet.Business.Domain;
 
-namespace _420DA3_A24_Projet.Business.Domain;
+// TODO @DRISS: rendre la classe public et non internal : ==> Done
+public class Role {
 
-
-// TODO @DRISS: rendre la classe public et non internal
-internal class Role {
+    #region Fields
     // Constants for predefined role IDs and property constraints
     public const int AdminRoleId = 1;
     public const int OfficeEmployeeRoleId = 2;
@@ -20,14 +15,14 @@ internal class Role {
     private string roleName = null!;
     private string roleDescription = null!;
 
+    #endregion
 
-    // Properties
+    #region Properties
     public int Id { get; set; }
-    public string RoleName 
-        {
+    public string RoleName {
         get { return this.roleName; }
         set {
-            if (value.Length > RoleNameMaxLength) {
+            if (!ValidateRoleName(value)) {
                 throw new ArgumentException($"Le nom d'utlisateur ne peut pas dépasser {RoleNameMaxLength} caractères.");
             }
             this.roleName = value;
@@ -36,36 +31,31 @@ internal class Role {
     public string RoleDescription {
         get { return this.roleDescription; }
         set {
-            if (value.Length > RoleDescriptionMaxLength) {
+            if (!ValidateRoleDescription(value)) {
                 throw new ArgumentException($"Le nom d'utlisateur ne peut pas dépasser {RoleDescriptionMaxLength} caractères.");
             }
             this.roleDescription = value;
         }
     }
 
-    
+
     public DateTime DateCreated { get; set; }
     public DateTime? DateDeleted { get; set; } // Nullable for optional values
     public DateTime? DateModified { get; set; } // Nullable for optional values
     public byte[] RowVersion { get; set; } = null!;
 
-    // TODO @DRISS: Attention d'ajouter le modificateur 'virtual' aux propriétés de navigation
-    public List<User> Users { get; set; } = new List<User>(); // Association with User class
+    // TODO @DRISS: Attention d'ajouter le modificateur 'virtual' aux propriétés de navigation :  ==> Done
+    public virtual List<User> Users { get; set; } = new List<User>(); // Association with User class
 
+    #endregion
 
-    // Constructors
+    #region Constructors
     public Role(int id, string roleName, string roleDescription) {
-        // TODO @DRISS: Utiliser les méthodes de validation directement dans le 'set' des propriétés.
-        // Vous n'aurez plus besoin de ces appels ici.
-        if (!ValidateRoleName(roleName))
-            throw new ArgumentException("Role name exceeds the maximum length.");
-        if (!ValidateRoleDescription(roleDescription))
-            throw new ArgumentException("Role description exceeds the maximum length.");
-
-        Id = id;
-        RoleName = roleName;
-        RoleDescription = roleDescription;
-        DateCreated = DateTime.Now; // TODO @DRISS: supprimer. Devrait être géré automatiquement par la BdD
+        // TODO @DRISS: Utiliser les méthodes de validation directement dans le 'set' des propriétés. : ==> Done
+        this.Id = id;
+        this.RoleName = roleName;
+        this.RoleDescription = roleDescription;
+        /*  this.DateCreated = DateTime.Now;*/ // TODO @DRISS: supprimer. Devrait être géré automatiquement par la BdD : ==> Done
     }
 
 
@@ -73,7 +63,6 @@ internal class Role {
     int id,
     string roleName,
     string roleDescription,
-    int? employeeWarehouseId, // TODO @DRISS: retirer paramètre superflu (copié de User on dirait)
     DateTime dateCreated,
     DateTime? dateModified,
     DateTime? dateDeleted,
@@ -91,8 +80,9 @@ internal class Role {
         this.roleName = roleName;
         this.roleDescription = roleDescription;
     }
+    #endregion
 
-    // Methods
+    #region Methods
     public static bool ValidateRoleName(string roleName) {
         return !string.IsNullOrEmpty(roleName) && roleName.Length <= RoleNameMaxLength;
     }
@@ -100,7 +90,5 @@ internal class Role {
     public static bool ValidateRoleDescription(string roleDescription) {
         return !string.IsNullOrEmpty(roleDescription) && roleDescription.Length <= RoleDescriptionMaxLength;
     }
-
-
-   
+    #endregion
 }
