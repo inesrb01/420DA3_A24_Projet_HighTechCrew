@@ -8,77 +8,73 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _420DA3_A24_Projet.Business.Services;
-internal class ClientService {
-    private readonly ProjetApplication _application;
-    private readonly ClientDAO _dao;
-    private readonly ClientView _view;
+namespace _420DA3_A24_Projet.Business.Services {
+    internal class ClientService {
+        private WsysApplication parentApp;
+        private ClientDAO dao;
+        private ClientView view;
+        private AppDbContext context;
 
-    public ClientService(ProjetApplication app, AppDbContext context) {
-        _application = app ?? throw new ArgumentNullException(nameof(app));
-        _dao = new ClientDAO(context);
-        _view = new ClientView(app);
-    }
+        public ClientService(WsysApplication application, AppDbContext contexte) {
+            this.parentApp = application ?? throw new ArgumentNullException(nameof(application)); 
+            this.context = contexte ?? throw new ArgumentNullException(nameof(contexte));         
+            this.dao = new ClientDAO(context);
+            this.view = new ClientView(parentApp);
+        }
 
-    public Client? OpenViewFor(ViewActionsEnum viewAction, Client? client = null) {
-        try {
-            var result = _view.OpenFor(viewAction, client);
-            if (result == DialogResult.OK) {
-                switch (viewAction) {
-                    case ViewActionsEnum.Creation:
-                    case ViewActionsEnum.Edition:
-                        _ = OpenViewFor(ViewActionsEnum.Visualization, _view.GetCurrentInstance());
-                        break;
-                    default:
-                        break;
-                }
+        /// <summary>
+        /// Crée un nouveau client.
+        /// </summary>
+        public Client CreateClient(Client client) {
+            try {
+                return dao.Create(client);
+            } catch (Exception ex) {
+                throw new Exception("Erreur lors de la création du client.", ex);
             }
-
-            return _view.GetCurrentInstance();
-        } catch (Exception ex) {
-            _application.HandleException(ex);
-            return null;
         }
-    }
 
-    public List<Client> Search(string filter) {
-        try {
-            return _dao.Search(filter);
-        } catch (Exception ex) {
-            throw new Exception("Failed to search for [Client] instances.", ex);
+        /// <summary>
+        /// Recherche des clients par mot-clé.
+        /// </summary>
+        public List<Client> Search(string keyword) {
+            try {
+                return dao.Search(keyword);
+            } catch (Exception ex) {
+                throw new Exception("Erreur lors de la recherche de clients.", ex);
+            }
         }
-    }
 
-    public Client Create(Client newClient) {
-        try {
-            return _dao.Create(newClient);
-        } catch (Exception ex) {
-            throw new Exception("Failed to create new [Client].", ex);
+        /// <summary>
+        /// Met à jour un client existant.
+        /// </summary>
+        public Client Update(Client client) {
+            try {
+                return dao.Update(client);
+            } catch (Exception ex) {
+                throw new Exception("Erreur lors de la mise à jour du client.", ex);
+            }
         }
-    }
 
-    public Client? GetById(int id) {
-        try {
-            return _dao.GetById(id);
-        } catch (Exception ex) {
-            throw new Exception($"Failed to obtain [Client] instance with id# {id}.", ex);
+        /// <summary>
+        /// Supprime un client.
+        /// </summary>
+        public void Delete(Client client, bool hardDelete = true) {
+            try {
+                dao.Delete(client, hardDelete);
+            } catch (Exception ex) {
+                throw new Exception("Erreur lors de la suppression du client.", ex);
+            }
         }
-    }
 
-    public Client Update(Client client) {
-        try {
-            return _dao.Update(client);
-        } catch (Exception ex) {
-            throw new Exception($"Failed to update [Client] instance with id# {client.Id}.", ex);
-        }
-    }
-
-    public void Delete(Client client, bool softDeletes = true) {
-        try {
-            _dao.Delete(client, softDeletes);
-        } catch (Exception ex) {
-            throw new Exception($"Failed to delete [Client] instance with id# {client.Id}.", ex);
+        /// <summary>
+        /// Récupère un client par ID.
+        /// </summary>
+        public Client? GetById(int id) {
+            try {
+                return dao.GetById(id);
+            } catch (Exception ex) {
+                throw new Exception($"Erreur lors de la récupération du client avec l'ID {id}.", ex);
+            }
         }
     }
 }
-
