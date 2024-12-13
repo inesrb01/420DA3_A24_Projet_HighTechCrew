@@ -4,15 +4,20 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.AxHost;
 
 namespace _420DA3_A24_Projet.DataAccess.Contexts;
-internal class AppDbContext : DbContext {
+public class AppDbContext : DbContext {
+    public DbSet<User> Users { get; set; }
+    public DbSet<Role> Roles { get; set; }
     public DbSet<ShippingOrder> ShippingOrders { get; set; }
     public DbSet< Shipment> Shipments { get; set; }
     public DbSet<Address> Addresses { get; set; }
+    public DbSet<PurchaseOrder> PurshaseOrders { get; set; }
     public DbSet<ShippingOrderProduct> ShippingOrderProducts { get; set; } // TODO @SOMEONE: completer une classe-pivot ShippingOrderProduct
 
     public DbSet<Product> Products { get; set; }
@@ -24,16 +29,15 @@ internal class AppDbContext : DbContext {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         base.OnConfiguring(optionsBuilder);
 
-        string connString = ConfigurationManager.ConnectionStrings["ProjectDatabase"]?.ConnectionString
-            ?? throw new Exception("No connection string found for key [ProjectDatabase]");
-
-        _ =  optionsBuilder.UseSqlServer(connString).UseLazyLoadingProxies();
-
-
+        optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ProjectOrder;Persist Security Info=True;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=0").UseLazyLoadingProxies();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<User>().Property(o => o.DateCreated).HasDefaultValue(DateTime.Now);
+        modelBuilder.Entity<Role>().Property(o => o.DateCreated).HasDefaultValue(DateTime.Now);
+
+
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<ShippingOrder>()
@@ -189,7 +193,9 @@ internal class AppDbContext : DbContext {
             .IsRequired(false);
 
 
-        //  Supplier
+        //  Supplier ***********
+
+
         modelBuilder.Entity<Supplier>()
             .ToTable(nameof(Suppliers))
             .HasKey(x => x.Id);
@@ -267,7 +273,9 @@ internal class AppDbContext : DbContext {
             .HasColumnOrder(9)
             .IsRowVersion();
 
-        // Product
+        // Product **********
+
+
         modelBuilder.Entity<Product>()
             .ToTable(nameof(Products))
             .HasKey(x => x.Id);
@@ -380,43 +388,179 @@ internal class AppDbContext : DbContext {
             .HasColumnType("int")
             .IsRequired(true);
 
+
+        // ******* ADDRESS ********
+
+
+        modelBuilder.Entity<Address>(entity => {
+            // Nom de la table
+            entity.ToTable(nameof(Address));
+
+            // Clé primaire
+            entity.HasKey(e => e.Id);
+
+            // Configuration des propriétés
+            entity.Property(e => e.Id)
+                  .HasColumnName(nameof(Address.Id))
+                  .HasColumnOrder(0)
+                  .HasColumnType("int")
+                  .UseIdentityColumn(1, 1);
+
+            entity.Property(e => e.Addressee)
+                  .HasColumnName(nameof(Address.Addressee))
+                  .HasColumnOrder(1)
+                  .HasColumnType($"nvarchar({Address.ADDRESSEE_MAX_LENGTH})")
+                  .IsRequired(true);
+
+            entity.Property(e => e.CivicNumber)
+                  .HasColumnName(nameof(Address.CivicNumber))
+                  .HasColumnOrder(2)
+                  .HasColumnType($"nvarchar({Address.CIVICNUMBER_MAX_LENGTH})")
+                  .IsRequired(true);
+
+            entity.Property(e => e.Street)
+                  .HasColumnName(nameof(Address.Street))
+                  .HasColumnOrder(3)
+                  .HasColumnType($"nvarchar({Address.STREET_MAX_LENGTH})")
+                  .IsRequired(true);
+
+            entity.Property(e => e.City)
+                  .HasColumnName(nameof(Address.City))
+                  .HasColumnOrder(4)
+                  .HasColumnType($"nvarchar({Address.CITY_MAX_LENGTH})")
+                  .IsRequired(true);
+
+            entity.Property(e => e.State)
+                  .HasColumnName(nameof(Address.State))
+                  .HasColumnOrder(5)
+                  .HasColumnType($"nvarchar({Address.STATE_MAX_LENGTH})")
+                  .IsRequired(true);
+
+            entity.Property(e => e.Country)
+                  .HasColumnName(nameof(Address.Country))
+                  .HasColumnOrder(6)
+                  .HasColumnType($"nvarchar({Address.COUNTRY_MAX_LENGTH})")
+                  .IsRequired(true);
+
+            entity.Property(e => e.PostalCode)
+                  .HasColumnName(nameof(Address.PostalCode))
+                  .HasColumnOrder(7)
+                  .HasColumnType($"nvarchar({Address.POSTALCODE_MAX_LENGTH})")
+                  .IsRequired(true);
+
+            entity.Property(e => e.DateCreated)
+                  .HasColumnName(nameof(Address.DateCreated))
+                  .HasColumnOrder(8)
+                  .HasColumnType("datetime2")
+                  .HasPrecision(7)
+                  .HasDefaultValueSql("GETDATE()")
+                  .IsRequired(true);
+
+            entity.Property(e => e.DateModified)
+                  .HasColumnName(nameof(Address.DateModified))
+                  .HasColumnOrder(9)
+                  .HasColumnType("datetime2")
+                  .HasPrecision(7)
+                  .IsRequired(false);
+
+            entity.Property(e => e.DateDeleted)
+                  .HasColumnName(nameof(Address.DateDeleted))
+                  .HasColumnOrder(10)
+                  .HasColumnType("datetime2")
+                  .HasPrecision(7)
+                  .IsRequired(false);
+
+
+        // ****** PurchaseOrder ***************8
+
+
+        modelBuilder.Entity<PurchaseOrder>(entity => {
+            // Nom de la table
+            entity.ToTable(nameof(PurchaseOrder));
+
+            // Clé primaire
+            entity.HasKey(e => e.Id);
+
+            // Configuration des propriétés
+            entity.Property(e => e.Id)
+                  .HasColumnName(nameof(PurchaseOrder.Id))
+                  .HasColumnOrder(0)
+                  .HasColumnType("int")
+                  .UseIdentityColumn(1, 1);
+
+            entity.Property(e => e.Status)
+                  .HasColumnName(nameof(PurchaseOrder.Status))
+                  .HasColumnOrder(1)
+                  .HasColumnType("int")
+                  .IsRequired(true);
+
+            entity.Property(e => e.ProductId)
+                  .HasColumnName(nameof(PurchaseOrder.ProductId))
+                  .HasColumnOrder(2)
+                  .HasColumnType("int")
+                  .IsRequired(true);
+
+            entity.Property(e => e.WarehouseId)
+                  .HasColumnName(nameof(PurchaseOrder.WarehouseId))
+                  .HasColumnOrder(3)
+                  .HasColumnType("int")
+                  .IsRequired(true);
+
+            entity.Property(e => e.Quantity)
+                  .HasColumnName(nameof(PurchaseOrder.Quantity))
+                  .HasColumnOrder(4)
+                  .HasColumnType("int")
+                  .IsRequired(true);
+
+            entity.Property(e => e.CompletionDate)
+                  .HasColumnName(nameof(PurchaseOrder.CompletionDate))
+                  .HasColumnOrder(5)
+                  .HasColumnType("datetime2")
+                  .HasPrecision(7)
+                  .IsRequired(false);
+
+            entity.Property(e => e.DateCreated)
+                  .HasColumnName(nameof(PurchaseOrder.DateCreated))
+                  .HasColumnOrder(6)
+                  .HasColumnType("datetime2")
+                  .HasPrecision(7)
+                  .HasDefaultValueSql("GETDATE()")
+                  .IsRequired(true);
+
+            entity.Property(e => e.DateModified)
+                  .HasColumnName(nameof(PurchaseOrder.DateModified))
+                  .HasColumnOrder(7)
+                  .HasColumnType("datetime2")
+                  .HasPrecision(7)
+                  .IsRequired(false);
+
+            entity.Property(e => e.DateDeleted)
+                  .HasColumnName(nameof(PurchaseOrder.DateDeleted))
+                  .HasColumnOrder(8)
+                  .HasColumnType("datetime2")
+                  .HasPrecision(7)
+                  .IsRequired(false);
+
+            // Propriété anti-concurrence RowVersion
+            entity.Property(e => e.RowVersion)
+                  .HasColumnName(nameof(PurchaseOrder.RowVersion))
+                  .HasColumnOrder(9)
+                  .IsRowVersion();
+
+            // Associations
+            entity.HasOne(e => e.Warehouse)
+                  .WithMany()
+                  .HasForeignKey(e => e.WarehouseId)
+                  .OnDelete(DeleteBehavior.Cascade);
+        }))
+        ) ;
+
         // Relations
         modelBuilder.Entity<Product>()
             .HasOne(p => p.Supplier)
             .WithMany(s => s.Products)
             .HasForeignKey(p => p.SupplierId)
             .OnDelete(DeleteBehavior.Restrict);
-        
-
-        
-
-
-
-
-
-
-
-
-
-
-
-        // TODO @TOUT_LE_MONDE: configurez vous entités ici
-
-        // classe client 
-    public DbSet<Client> Clients { get; set; }
-    public DbSet<Warehouse> Warehouses { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-        base.OnConfiguring(optionsBuilder);
-
-        string connString = ConfigurationManager.ConnectionStrings["ProjectDatabase"]?.ConnectionString
-            ?? throw new Exception("No connection string found for key [ProjectDatabase]");
-
-        optionsBuilder.UseSqlServer(connString).UseLazyLoadingProxies();
-    }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder) {
-        base.OnModelCreating(modelBuilder);
 
         // Configuration pour Client
         modelBuilder.Entity<Client>()
@@ -540,8 +684,44 @@ internal class AppDbContext : DbContext {
             WarehouseId = 1,
             DateCreated = DateTime.Now
         });
+        modelBuilder.Entity<Address>().HasData(new Address {
+            Id = 1;
+            Addressee = "122 Rue Sainte Catherine ";
+            CivicNumber = "122";
+            Street = "Rue Saint Catherine ";
+            City = "Montreal";
+            State = "Quebec";
+            Country = "Canada";
+            PostalCode = "H2B0S7";
+            DateCreated = DateTime.Now();
+
+
+        });
 
     }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+    // TODO @TOUT_LE_MONDE: configurez vous entités ici
+
+    // classe client 
+    public DbSet<Client> Clients { get; set; }
+    public DbSet<Warehouse> Warehouses { get; set; }
+
+   
+
+      
 }
 
         
