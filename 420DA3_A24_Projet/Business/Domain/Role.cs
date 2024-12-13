@@ -80,6 +80,9 @@ public class Role {
         this.roleName = roleName;
         this.roleDescription = roleDescription;
     }
+    public Role() {
+     
+    }
     #endregion
 
     #region Methods

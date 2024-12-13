@@ -80,6 +80,8 @@ public class User {
         this.username = username;
         this.passwordHash = passwordHash;
     }
+    public User() { 
+    }
 
 
     #endregion
