@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -192,6 +193,8 @@ internal class AppDbContext : DbContext {
 
 
         //  Supplier ***********
+
+
         modelBuilder.Entity<Supplier>()
             .ToTable(nameof(Suppliers))
             .HasKey(x => x.Id);
@@ -384,8 +387,11 @@ internal class AppDbContext : DbContext {
             .HasColumnType("int")
             .IsRequired(true);
 
-        modelBuilder.Entity<Address>(entity =>
-        {
+
+        // ******* ADDRESS ********
+
+
+        modelBuilder.Entity<Address>(entity => {
             // Nom de la table
             entity.ToTable(nameof(Address));
 
@@ -462,7 +468,91 @@ internal class AppDbContext : DbContext {
                   .HasColumnType("datetime2")
                   .HasPrecision(7)
                   .IsRequired(false);
-        });
+
+
+        // ****** PurchaseOrder ***************8
+
+
+        modelBuilder.Entity<PurchaseOrder>(entity => {
+            // Nom de la table
+            entity.ToTable(nameof(PurchaseOrder));
+
+            // Clé primaire
+            entity.HasKey(e => e.Id);
+
+            // Configuration des propriétés
+            entity.Property(e => e.Id)
+                  .HasColumnName(nameof(PurchaseOrder.Id))
+                  .HasColumnOrder(0)
+                  .HasColumnType("int")
+                  .UseIdentityColumn(1, 1);
+
+            entity.Property(e => e.Status)
+                  .HasColumnName(nameof(PurchaseOrder.Status))
+                  .HasColumnOrder(1)
+                  .HasColumnType("int")
+                  .IsRequired(true);
+
+            entity.Property(e => e.ProductId)
+                  .HasColumnName(nameof(PurchaseOrder.ProductId))
+                  .HasColumnOrder(2)
+                  .HasColumnType("int")
+                  .IsRequired(true);
+
+            entity.Property(e => e.WarehouseId)
+                  .HasColumnName(nameof(PurchaseOrder.WarehouseId))
+                  .HasColumnOrder(3)
+                  .HasColumnType("int")
+                  .IsRequired(true);
+
+            entity.Property(e => e.Quantity)
+                  .HasColumnName(nameof(PurchaseOrder.Quantity))
+                  .HasColumnOrder(4)
+                  .HasColumnType("int")
+                  .IsRequired(true);
+
+            entity.Property(e => e.CompletionDate)
+                  .HasColumnName(nameof(PurchaseOrder.CompletionDate))
+                  .HasColumnOrder(5)
+                  .HasColumnType("datetime2")
+                  .HasPrecision(7)
+                  .IsRequired(false);
+
+            entity.Property(e => e.DateCreated)
+                  .HasColumnName(nameof(PurchaseOrder.DateCreated))
+                  .HasColumnOrder(6)
+                  .HasColumnType("datetime2")
+                  .HasPrecision(7)
+                  .HasDefaultValueSql("GETDATE()")
+                  .IsRequired(true);
+
+            entity.Property(e => e.DateModified)
+                  .HasColumnName(nameof(PurchaseOrder.DateModified))
+                  .HasColumnOrder(7)
+                  .HasColumnType("datetime2")
+                  .HasPrecision(7)
+                  .IsRequired(false);
+
+            entity.Property(e => e.DateDeleted)
+                  .HasColumnName(nameof(PurchaseOrder.DateDeleted))
+                  .HasColumnOrder(8)
+                  .HasColumnType("datetime2")
+                  .HasPrecision(7)
+                  .IsRequired(false);
+
+            // Propriété anti-concurrence RowVersion
+            entity.Property(e => e.RowVersion)
+                  .HasColumnName(nameof(PurchaseOrder.RowVersion))
+                  .HasColumnOrder(9)
+                  .IsRowVersion();
+
+            // Associations
+            entity.HasOne(e => e.Warehouse)
+                  .WithMany()
+                  .HasForeignKey(e => e.WarehouseId)
+                  .OnDelete(DeleteBehavior.Cascade);
+        }))
+        ) ;
 
         // Relations
         modelBuilder.Entity<Product>()

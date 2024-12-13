@@ -7,12 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace _420DA3_A24_Projet.DataAccess.DAOs;
-internal class AdressDAO {
+internal class AddressDAO {
     private readonly AppDbContext context;
 
-    public AdressDAO(AppDbContext context) {
+    public AddressDAO(AppDbContext context) {
         this.context = context;
     }       
+
     public Address Create(Address address) {
         _=this.context.Addresses.Add(address); // Ajoute l'adresse au DbSet
         _=this.context.SaveChanges();         // Enregistre les modifications dans la base
@@ -55,9 +56,9 @@ internal class AdressDAO {
                    .ToList();
     }
 
-    //public Address GetByWarehouse(entrepots warehouse) {
-    //    return this.context.Addresses.FirstOrDefault(a => a.entrepotID == entrepots.ID)
-    //           ?? throw new KeyNotFoundException($"Adresse pour l'entrepôt {entrepots.Id} introuvable.");
+    //public address getbywarehouse(entrepots warehouse) {
+    //    return this.context.addresses.firstordefault(a => a.entrepotid == entrepots.id)
+    //           ?? throw new keynotfoundexception($"adresse pour l'entrepôt {entrepots.id} introuvable.");
     //}
 
     //public Address GetByShipOrder(ShippingOrder order) {

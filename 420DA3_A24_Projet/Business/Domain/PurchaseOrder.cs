@@ -1,6 +1,7 @@
 ﻿using Project_Utilities.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +30,11 @@ public class PurchaseOrder {
     public DateTime? DateModified { get; set; }
     public DateTime? DateDeleted { get; set; }
 
-    public Warehouse Entrepot { get; set; }
+    public Warehouse Warehouse { get; set; }
+    [Timestamp]
+    public byte[] RowVersion { get; set; }
+
+
 
     // UNDONE @BRAHEM: ajouter une propriété anti-concurrence RowVersion, type byte[]
 
