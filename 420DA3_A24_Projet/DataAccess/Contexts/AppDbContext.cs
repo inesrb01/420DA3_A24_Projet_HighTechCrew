@@ -10,7 +10,9 @@ using System.Threading.Tasks;
 using static System.Windows.Forms.AxHost;
 
 namespace _420DA3_A24_Projet.DataAccess.Contexts;
-internal class AppDbContext : DbContext {
+public class AppDbContext : DbContext {
+    public DbSet<User> Users { get; set; }
+    public DbSet<Role> Roles { get; set; }
     public DbSet<ShippingOrder> ShippingOrders { get; set; }
     public DbSet< Shipment> Shipments { get; set; }
     public DbSet<Address> Addresses { get; set; }
@@ -26,16 +28,15 @@ internal class AppDbContext : DbContext {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         base.OnConfiguring(optionsBuilder);
 
-        string connString = ConfigurationManager.ConnectionStrings["ProjectDatabase"]?.ConnectionString
-            ?? throw new Exception("No connection string found for key [ProjectDatabase]");
-
-        _ =  optionsBuilder.UseSqlServer(connString).UseLazyLoadingProxies();
-
-
+        optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ProjectOrder;Persist Security Info=True;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=0").UseLazyLoadingProxies();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<User>().Property(o => o.DateCreated).HasDefaultValue(DateTime.Now);
+        modelBuilder.Entity<Role>().Property(o => o.DateCreated).HasDefaultValue(DateTime.Now);
+
+
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<ShippingOrder>()
@@ -471,39 +472,6 @@ internal class AppDbContext : DbContext {
             .HasForeignKey(p => p.SupplierId)
             .OnDelete(DeleteBehavior.Restrict);
 
-
-
-
-
-    }
-
-
-
-
-
-
-
-
-
-
-    // TODO @TOUT_LE_MONDE: configurez vous entités ici
-
-    // classe client 
-    public DbSet<Client> Clients { get; set; }
-    public DbSet<Warehouse> Warehouses { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
-        base.OnConfiguring(optionsBuilder);
-
-        string connString = ConfigurationManager.ConnectionStrings["ProjectDatabase"]?.ConnectionString
-            ?? throw new Exception("No connection string found for key [ProjectDatabase]");
-
-        optionsBuilder.UseSqlServer(connString).UseLazyLoadingProxies();
-    }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder) {
-        base.OnModelCreating(modelBuilder);
-
         // Configuration pour Client
         modelBuilder.Entity<Client>()
             .ToTable(nameof(Clients))
@@ -627,20 +595,43 @@ internal class AppDbContext : DbContext {
             DateCreated = DateTime.Now
         });
         modelBuilder.Entity<Address>().HasData(new Address {
-            Id = 1 ;
+            Id = 1;
             Addressee = "122 Rue Sainte Catherine ";
-        CivicNumber = "122";
-        Street = "Rue Saint Catherine ";
-        City = "Montreal";
-        State = "Quebec";
-        Country = "Canada";
-        PostalCode = "H2B0S7";
-        DateCreated = DateTime.Now();
+            CivicNumber = "122";
+            Street = "Rue Saint Catherine ";
+            City = "Montreal";
+            State = "Quebec";
+            Country = "Canada";
+            PostalCode = "H2B0S7";
+            DateCreated = DateTime.Now();
 
 
         });
 
     }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+    // TODO @TOUT_LE_MONDE: configurez vous entités ici
+
+    // classe client 
+    public DbSet<Client> Clients { get; set; }
+    public DbSet<Warehouse> Warehouses { get; set; }
+
+   
+
+      
 }
 
         
