@@ -1,4 +1,5 @@
-﻿using Azure.Identity;
+﻿using _420DA3_A24_Projet.Business.Domain;
+using Azure.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
