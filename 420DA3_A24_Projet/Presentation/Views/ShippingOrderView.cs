@@ -24,6 +24,10 @@ internal partial class ShippingOrderView : Form {
 
     private void textBox1_TextChanged(object sender, EventArgs e) {
         string searchCriterion = ;
-        List<Client> resultats = this.parentApp.ClientService.Search(searchCriterion);
+        List<ClientView> resultats = this.parentApp.ClientService.Search(searchCriterion);
+    }
+
+    private void numId_ValueChanged(object sender, EventArgs e) {
+
     }
 }
