@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace _420DA3_A24_Projet.DataAccess.DAOs;
 internal class ProductDAO {
-    private readonly AppDbContexte _context;
+    private readonly AppDbContext _context;
 
-    public ProductDAO(AppDbContexte context) {
+    public ProductDAO(AppDbContext context) {
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
