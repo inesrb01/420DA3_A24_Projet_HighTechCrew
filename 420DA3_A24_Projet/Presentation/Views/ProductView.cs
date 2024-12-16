@@ -44,6 +44,7 @@ public partial class ProductView : Form {
         this.btnAddProduct.TabIndex = 1;
         this.btnAddProduct.Text = "addProduct";
         this.btnAddProduct.UseVisualStyleBackColor = true;
+        this.btnAddProduct.Click += this.btnAddProduct_Click;
         // 
         // btnEditProduct
         // 
@@ -105,6 +106,10 @@ public partial class ProductView : Form {
     }
 
     private void productDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e) {
+
+    }
+
+    private void btnAddProduct_Click(object sender, EventArgs e) {
 
     }
 }

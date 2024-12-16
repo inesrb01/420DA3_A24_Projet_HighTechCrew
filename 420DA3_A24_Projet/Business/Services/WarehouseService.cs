@@ -1,12 +1,7 @@
 ﻿using _420DA3_A24_Projet.Business.Domain;
-using _420DA3_A24_Projet.DataAccess.Contexts;
 using _420DA3_A24_Projet.DataAccess.DAOs;
+using _420DA3_A24_Projet.Presentation.Views;
 using Project_Utilities.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace _420DA3_A24_Projet.Business.Services;
 internal class WarehouseService {
@@ -17,12 +12,11 @@ internal class WarehouseService {
     public WarehouseService(ProjetApplication app, AppDbContext context) {
         _application = app ?? throw new ArgumentNullException(nameof(app));
         _dao = new WarehouseDAO(context);
-        _view = new WarehouseView(app);
     }
 
     public Warehouse? OpenViewFor(ViewActionsEnum viewAction, Warehouse? warehouse = null) {
         try {
-            var result = _view.OpenFor(viewAction, warehouse);
+            DialogResult result = _view.OpenFor(viewAction, warehouse);
             if (result == DialogResult.OK) {
                 switch (viewAction) {
                     case ViewActionsEnum.Creation:

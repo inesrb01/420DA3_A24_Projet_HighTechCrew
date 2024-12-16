@@ -29,4 +29,10 @@
     <ProjectReference Include="..\Project_Utilities\Project_Utilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="PasswordHasherWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>
