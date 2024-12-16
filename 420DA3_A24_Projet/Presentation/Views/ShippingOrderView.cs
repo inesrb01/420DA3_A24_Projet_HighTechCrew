@@ -16,8 +16,9 @@ namespace _420DA3_A24_Projet.Presentation.Views;
 internal partial class ShippingOrderView : Form {
     private WsysApplication parentApp;
     private bool isInitialized = false;
-    private ComboBox statusValue;
-  
+    private ShippingOrder currentOrder;
+
+
     public ShippingOrderView(WsysApplication application) {
         this.parentApp = application;
         this.InitializeComponent();
@@ -29,40 +30,64 @@ internal partial class ShippingOrderView : Form {
         }
     }
     private void ReloadStatusComboBox() {
-        this.statusValue.Items.Clear();
-        this.statusValue.Items.AddRange(Enum.GetNames(typeof(ShippingOrderStatusEnum)));
+        cmbStatut.Items.Clear();
+        cmbStatut.Items.AddRange(Enum.GetNames(typeof(ShippingOrderStatusEnum)));
+    }
+    private void LoadOrderData() {
+        
+        if (currentOrder != null) {
+            txtClientSource.Text = currentOrder.ClientName;
+            txtDestinationAddresse.Text = currentOrder.DestinationAddress;
+            cmbStatut.SelectedItem = currentOrder.Status.ToString();
+            numQuantiteAjouter.Value = currentOrder.Quantity;
+        }
     }
     public DialogResult OpenForCreation(ShippingOrder instance) {
         this.PreOpenSetup(instance, ViewActionsEnum.Creation, "Création d'un ordre d'expédition", "Créer");
         return this.ShowDialog();
     }
     public DialogResult OpenForDetailsView(ShippingOrder instance) {
-        this.PreOpenSetup(instance, ViewActionsEnum.Visualization, "Details d'un ", "Créer");
+        this.PreOpenSetup(instance, ViewActionsEnum.Creation, "Création d'un ordre d'expédition", "Créer");
         return this.ShowDialog();
     }
 
     public void PreOpenSetup(ShippingOrder instance, ViewActionsEnum action, string windowTitle, string actionButtonText) {
-        this.Initialize();
-        this.CurrentAction = action;
-        this.CurrentEntityInstance = instance;
+        {
+            this.Initialize();
+            this.Text = windowTitle;
+            this.btnAction.Text = actionButtonText;
 
-        this.Text = windowTitle;
-        this.btnAction.Text = actionButtonText;
+        }
 
-        this.LoadDataInControls(instance);
-        this.ActivateControls();
     }
-    
-}
-   
-    
+
+    private void productOrderList_SelectedIndexChanged(object sender, EventArgs e) {
+        if (productOrderList.SelectedItem != null) {
+            string selectedItem = productOrderList.SelectedItem.ToString();
+            string[] parts = selectedItem.Split('-');
+            if (parts.Length == 2) {
+                string productName = parts[0].Trim();
+                string productDescription = parts[1].Trim().Replace("Quantité :", "").Trim();
+                if (int.TryParse(productDescription, out int quantity)) {
+                    numChangerQuantite.Value = quantity;
+                }
+                {
+                    numChangerQuantite.Value = quantity;
+
+                }
+            }
+
+        }
+    }
+
+
 
     private void Label1_Click(object sender, EventArgs e) {
 
     }
 
     private void textBox1_TextChanged(object sender, EventArgs e) {
-        
+
     }
 
     private void label1_Click_1(object sender, EventArgs e) {
@@ -83,6 +108,7 @@ internal partial class ShippingOrderView : Form {
             MessageBox.Show("Veuillez sélectionner un produit.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
         }
+
         string selectedProduct = listProduitsDisponible.SelectedItem?.ToString();
         int quantity = (int) numQuantiteAjouter.Value;
 
@@ -95,30 +121,50 @@ internal partial class ShippingOrderView : Form {
 
     }
 
-    private void btnRetirerProduit_Click(object sender, EventArgs e) {
-        if (productOrderList.SelectedItems != null) {
-            productOrderList.Items.Remove(productOrderList.SelectedItems);
-            MessageBox.Show("Produit retiré avec succès !");
-        } else {
-            MessageBox.Show("Veuillez sélectionner un produit à retirer.");
-        }
-
-    }
 
     private void numChangerQuantite_ValueChanged(object sender, EventArgs e) {
-        if (productOrderList.SelectedItems == null) {
+        if (productOrderList.SelectedItem != null) {
             string selectedProduct = productOrderList.SelectedItem?.ToString();
             int nouvelleQuantite = (int) numChangerQuantite.Value;
-            string productName = productOrderList.SelectedItem?.ToString();
-            productOrderList.Items[productOrderList.SelectedIndex] = $"{productName} - Quantité : {nouvelleQuantite}";
+
+            productOrderList.Items[productOrderList.SelectedIndex] = $"{selectedProduct.Split('-')[0]} - Quantité : {nouvelleQuantite}";
         }
     }
 
     private void txtQuantiteAjoute_TextChanged(object sender, EventArgs e) {
+        if (int.TryParse(txtQuantiteAjoute.Text, out int valeur)) {
+            numQuantiteAjouter.Value = Math.Min(numQuantiteAjouter.Maximum, Math.Max(numQuantiteAjouter.Minimum, valeur));
+        }
 
     }
 
     private void numQuantiteAjouter_ValueChanged(object sender, EventArgs e) {
+        txtQuantiteAjoute.Text = numQuantiteAjouter.Value.ToString();
+
+    }
+
+    private void btnRetirerProduit_Click_1(object sender, EventArgs e) {
+        if (productOrderList.SelectedItem != null) {
+            productOrderList.Items.Remove(productOrderList.SelectedItem);
+            MessageBox.Show("Produit retiré avec succès !", "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        } else {
+            MessageBox.Show("Veuillez sélectionner un produit à retirer.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+    }
+
+    private void numQuantiteAjouter_ValueChanged_1(object sender, EventArgs e) {
+
+        txtQuantiteAjoute.Text = numQuantiteAjouter.Value.ToString();
+
+
+    }
+
+    private void lblId_Click(object sender, EventArgs e) {
+
+    }
+
+    private void ShippingOrderView_Load(object sender, EventArgs e) {
 
     }
 }

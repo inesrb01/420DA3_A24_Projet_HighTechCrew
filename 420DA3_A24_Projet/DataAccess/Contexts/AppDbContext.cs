@@ -688,19 +688,17 @@ public class AppDbContext : DbContext {
             ;
             ;
 
-            modelBuilder.Entity<Address>().HasData(new Address {
-                Id = 1,
-                Addressee = "122 Rue Sainte Catherine ",
-                CivicNumber = "122",
-                Street = "Rue Saint Catherine ",
-                City = "Montreal",
-                State = "Quebec",
-                Country = "Canada",
-                PostalCode = "H2B0S7",
-                DateCreated = DateTime.Now
-                
-            });
-
+        _ = modelBuilder.Entity<Address>().HasData(new Address {
+            Id = 1,
+            Addressee = "122 Rue Sainte Catherine",
+            CivicNumber = "122",
+            Street = "Rue Saint Catherine",
+            City = "Montreal",
+            State = "Quebec",
+            Country = "Canada",
+            PostalCode = "H2B0S7",
+            DateCreated = DateTime.Now,
+            RowVersion = Array.Empty<byte>()
         });
 
 
