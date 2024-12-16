@@ -33,7 +33,15 @@ partial class AddressView {
     private void InitializeComponent() {
         this.panel1 = new Panel();
         this.panel4 = new Panel();
-        this.PurchaseOrderButton = new Button();
+        this.PostalCodeTextBox = new TextBox();
+        this.PostalCodeLabel = new Label();
+        this.textBox1 = new TextBox();
+        this.CountryLabel = new Label();
+        this.textBox2 = new TextBox();
+        this.StateLabel = new Label();
+        this.CityLabel = new Label();
+        this.CityTextBox = new TextBox();
+        this.AddAddressButton = new Button();
         this.dateTimePicker1 = new DateTimePicker();
         this.label1 = new Label();
         this.WarehouseIdTextBox = new TextBox();
@@ -52,14 +60,8 @@ partial class AddressView {
         this.PrchaseOrderIdLabel = new Label();
         this.panel3 = new Panel();
         this.panel2 = new Panel();
-        this.CityTextBox = new TextBox();
-        this.CityLabel = new Label();
-        this.StateLabel = new Label();
-        this.textBox2 = new TextBox();
-        this.CountryLabel = new Label();
-        this.textBox1 = new TextBox();
-        this.PostalCodeLabel = new Label();
-        this.PostalCodeTextBox = new TextBox();
+        this.GetAddressButton = new Button();
+        this.UpdateAddressButton = new Button();
         this.panel1.SuspendLayout();
         this.panel4.SuspendLayout();
         this.SuspendLayout();
@@ -76,6 +78,8 @@ partial class AddressView {
         // 
         // panel4
         // 
+        this.panel4.Controls.Add(this.UpdateAddressButton);
+        this.panel4.Controls.Add(this.GetAddressButton);
         this.panel4.Controls.Add(this.PostalCodeTextBox);
         this.panel4.Controls.Add(this.PostalCodeLabel);
         this.panel4.Controls.Add(this.textBox1);
@@ -84,7 +88,7 @@ partial class AddressView {
         this.panel4.Controls.Add(this.StateLabel);
         this.panel4.Controls.Add(this.CityLabel);
         this.panel4.Controls.Add(this.CityTextBox);
-        this.panel4.Controls.Add(this.PurchaseOrderButton);
+        this.panel4.Controls.Add(this.AddAddressButton);
         this.panel4.Controls.Add(this.dateTimePicker1);
         this.panel4.Controls.Add(this.label1);
         this.panel4.Controls.Add(this.WarehouseIdTextBox);
@@ -106,14 +110,78 @@ partial class AddressView {
         this.panel4.Size = new Size(529, 376);
         this.panel4.TabIndex = 2;
         // 
-        // PurchaseOrderButton
+        // PostalCodeTextBox
         // 
-        this.PurchaseOrderButton.Location = new Point(40, 306);
-        this.PurchaseOrderButton.Name = "PurchaseOrderButton";
-        this.PurchaseOrderButton.Size = new Size(128, 29);
-        this.PurchaseOrderButton.TabIndex = 26;
-        this.PurchaseOrderButton.Text = "Purchase Order";
-        this.PurchaseOrderButton.UseVisualStyleBackColor = true;
+        this.PostalCodeTextBox.Location = new Point(351, 121);
+        this.PostalCodeTextBox.Name = "PostalCodeTextBox";
+        this.PostalCodeTextBox.Size = new Size(125, 27);
+        this.PostalCodeTextBox.TabIndex = 34;
+        // 
+        // PostalCodeLabel
+        // 
+        this.PostalCodeLabel.AutoSize = true;
+        this.PostalCodeLabel.Location = new Point(265, 121);
+        this.PostalCodeLabel.Name = "PostalCodeLabel";
+        this.PostalCodeLabel.Size = new Size(83, 20);
+        this.PostalCodeLabel.TabIndex = 33;
+        this.PostalCodeLabel.Text = "PostalCode";
+        // 
+        // textBox1
+        // 
+        this.textBox1.Location = new Point(113, 121);
+        this.textBox1.Name = "textBox1";
+        this.textBox1.Size = new Size(125, 27);
+        this.textBox1.TabIndex = 32;
+        // 
+        // CountryLabel
+        // 
+        this.CountryLabel.AutoSize = true;
+        this.CountryLabel.Location = new Point(17, 124);
+        this.CountryLabel.Name = "CountryLabel";
+        this.CountryLabel.Size = new Size(60, 20);
+        this.CountryLabel.TabIndex = 31;
+        this.CountryLabel.Text = "Country";
+        // 
+        // textBox2
+        // 
+        this.textBox2.Location = new Point(351, 88);
+        this.textBox2.Name = "textBox2";
+        this.textBox2.Size = new Size(125, 27);
+        this.textBox2.TabIndex = 30;
+        // 
+        // StateLabel
+        // 
+        this.StateLabel.AutoSize = true;
+        this.StateLabel.Location = new Point(260, 91);
+        this.StateLabel.Name = "StateLabel";
+        this.StateLabel.Size = new Size(43, 20);
+        this.StateLabel.TabIndex = 29;
+        this.StateLabel.Text = "State";
+        // 
+        // CityLabel
+        // 
+        this.CityLabel.AutoSize = true;
+        this.CityLabel.Location = new Point(17, 95);
+        this.CityLabel.Name = "CityLabel";
+        this.CityLabel.Size = new Size(34, 20);
+        this.CityLabel.TabIndex = 28;
+        this.CityLabel.Text = "City";
+        // 
+        // CityTextBox
+        // 
+        this.CityTextBox.Location = new Point(113, 88);
+        this.CityTextBox.Name = "CityTextBox";
+        this.CityTextBox.Size = new Size(125, 27);
+        this.CityTextBox.TabIndex = 27;
+        // 
+        // AddAddressButton
+        // 
+        this.AddAddressButton.Location = new Point(128, 302);
+        this.AddAddressButton.Name = "AddAddressButton";
+        this.AddAddressButton.Size = new Size(128, 29);
+        this.AddAddressButton.TabIndex = 26;
+        this.AddAddressButton.Text = "Add Address";
+        this.AddAddressButton.UseVisualStyleBackColor = true;
         // 
         // dateTimePicker1
         // 
@@ -270,69 +338,23 @@ partial class AddressView {
         this.panel2.Size = new Size(81, 376);
         this.panel2.TabIndex = 0;
         // 
-        // CityTextBox
+        // GetAddressButton
         // 
-        this.CityTextBox.Location = new Point(113, 88);
-        this.CityTextBox.Name = "CityTextBox";
-        this.CityTextBox.Size = new Size(125, 27);
-        this.CityTextBox.TabIndex = 27;
+        this.GetAddressButton.Location = new Point(361, 302);
+        this.GetAddressButton.Name = "GetAddressButton";
+        this.GetAddressButton.Size = new Size(125, 29);
+        this.GetAddressButton.TabIndex = 35;
+        this.GetAddressButton.Text = "Get Address";
+        this.GetAddressButton.UseVisualStyleBackColor = true;
         // 
-        // CityLabel
+        // UpdateAddressButton
         // 
-        this.CityLabel.AutoSize = true;
-        this.CityLabel.Location = new Point(17, 95);
-        this.CityLabel.Name = "CityLabel";
-        this.CityLabel.Size = new Size(34, 20);
-        this.CityLabel.TabIndex = 28;
-        this.CityLabel.Text = "City";
-        // 
-        // StateLabel
-        // 
-        this.StateLabel.AutoSize = true;
-        this.StateLabel.Location = new Point(260, 91);
-        this.StateLabel.Name = "StateLabel";
-        this.StateLabel.Size = new Size(43, 20);
-        this.StateLabel.TabIndex = 29;
-        this.StateLabel.Text = "State";
-        // 
-        // textBox2
-        // 
-        this.textBox2.Location = new Point(351, 88);
-        this.textBox2.Name = "textBox2";
-        this.textBox2.Size = new Size(125, 27);
-        this.textBox2.TabIndex = 30;
-        // 
-        // CountryLabel
-        // 
-        this.CountryLabel.AutoSize = true;
-        this.CountryLabel.Location = new Point(17, 124);
-        this.CountryLabel.Name = "CountryLabel";
-        this.CountryLabel.Size = new Size(60, 20);
-        this.CountryLabel.TabIndex = 31;
-        this.CountryLabel.Text = "Country";
-        // 
-        // textBox1
-        // 
-        this.textBox1.Location = new Point(113, 121);
-        this.textBox1.Name = "textBox1";
-        this.textBox1.Size = new Size(125, 27);
-        this.textBox1.TabIndex = 32;
-        // 
-        // PostalCodeLabel
-        // 
-        this.PostalCodeLabel.AutoSize = true;
-        this.PostalCodeLabel.Location = new Point(265, 121);
-        this.PostalCodeLabel.Name = "PostalCodeLabel";
-        this.PostalCodeLabel.Size = new Size(83, 20);
-        this.PostalCodeLabel.TabIndex = 33;
-        this.PostalCodeLabel.Text = "PostalCode";
-        // 
-        // PostalCodeTextBox
-        // 
-        this.PostalCodeTextBox.Location = new Point(351, 121);
-        this.PostalCodeTextBox.Name = "PostalCodeTextBox";
-        this.PostalCodeTextBox.Size = new Size(125, 27);
-        this.PostalCodeTextBox.TabIndex = 34;
+        this.UpdateAddressButton.Location = new Point(245, 337);
+        this.UpdateAddressButton.Name = "UpdateAddressButton";
+        this.UpdateAddressButton.Size = new Size(132, 29);
+        this.UpdateAddressButton.TabIndex = 36;
+        this.UpdateAddressButton.Text = "Update Adrress";
+        this.UpdateAddressButton.UseVisualStyleBackColor = true;
         // 
         // AddressView
         // 
@@ -352,7 +374,7 @@ partial class AddressView {
 
     private Panel panel1;
     private Panel panel4;
-    private Button PurchaseOrderButton;
+    private Button AddAddressButton;
     private DateTimePicker dateTimePicker1;
     private Label label1;
     private TextBox WarehouseIdTextBox;
@@ -379,4 +401,6 @@ partial class AddressView {
     private Label PostalCodeLabel;
     private TextBox textBox1;
     private Label CountryLabel;
+    private Button UpdateAddressButton;
+    private Button GetAddressButton;
 }

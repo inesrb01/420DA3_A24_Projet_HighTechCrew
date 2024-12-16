@@ -189,4 +189,8 @@ internal partial class PatientView : Form {
             throw new ValidationException(message);
         }
     }
+
+    private void idNumericUpDown_ValueChanged(object sender, EventArgs e) {
+
+    }
 }
