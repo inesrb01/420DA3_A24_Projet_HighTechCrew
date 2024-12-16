@@ -471,234 +471,245 @@ public class AppDbContext : DbContext {
                   .IsRequired(false);
 
 
-        // ****** PurchaseOrder ***************8
+            // ****** PurchaseOrder ***************8
 
 
-        modelBuilder.Entity<PurchaseOrder>(entity => {
-            // Nom de la table
-            entity.ToTable(nameof(PurchaseOrder));
+            modelBuilder.Entity<PurchaseOrder>(entity => {
+                // Nom de la table
+                entity.ToTable(nameof(PurchaseOrder));
 
-            // Clé primaire
-            entity.HasKey(e => e.Id);
+                // Clé primaire
+                entity.HasKey(e => e.Id);
 
-            // Configuration des propriétés
-            entity.Property(e => e.Id)
-                  .HasColumnName(nameof(PurchaseOrder.Id))
-                  .HasColumnOrder(0)
-                  .HasColumnType("int")
-                  .UseIdentityColumn(1, 1);
+                // Configuration des propriétés
+                entity.Property(e => e.Id)
+                      .HasColumnName(nameof(PurchaseOrder.Id))
+                      .HasColumnOrder(0)
+                      .HasColumnType("int")
+                      .UseIdentityColumn(1, 1);
 
-            entity.Property(e => e.Status)
-                  .HasColumnName(nameof(PurchaseOrder.Status))
-                  .HasColumnOrder(1)
-                  .HasColumnType("int")
-                  .IsRequired(true);
+                entity.Property(e => e.Status)
+                      .HasColumnName(nameof(PurchaseOrder.Status))
+                      .HasColumnOrder(1)
+                      .HasColumnType("int")
+                      .IsRequired(true);
 
-            entity.Property(e => e.ProductId)
-                  .HasColumnName(nameof(PurchaseOrder.ProductId))
-                  .HasColumnOrder(2)
-                  .HasColumnType("int")
-                  .IsRequired(true);
+                entity.Property(e => e.ProductId)
+                      .HasColumnName(nameof(PurchaseOrder.ProductId))
+                      .HasColumnOrder(2)
+                      .HasColumnType("int")
+                      .IsRequired(true);
 
-            entity.Property(e => e.WarehouseId)
-                  .HasColumnName(nameof(PurchaseOrder.WarehouseId))
-                  .HasColumnOrder(3)
-                  .HasColumnType("int")
-                  .IsRequired(true);
+                entity.Property(e => e.WarehouseId)
+                      .HasColumnName(nameof(PurchaseOrder.WarehouseId))
+                      .HasColumnOrder(3)
+                      .HasColumnType("int")
+                      .IsRequired(true);
 
-            entity.Property(e => e.Quantity)
-                  .HasColumnName(nameof(PurchaseOrder.Quantity))
-                  .HasColumnOrder(4)
-                  .HasColumnType("int")
-                  .IsRequired(true);
+                entity.Property(e => e.Quantity)
+                      .HasColumnName(nameof(PurchaseOrder.Quantity))
+                      .HasColumnOrder(4)
+                      .HasColumnType("int")
+                      .IsRequired(true);
 
-            entity.Property(e => e.CompletionDate)
-                  .HasColumnName(nameof(PurchaseOrder.CompletionDate))
-                  .HasColumnOrder(5)
-                  .HasColumnType("datetime2")
-                  .HasPrecision(7)
-                  .IsRequired(false);
+                entity.Property(e => e.CompletionDate)
+                      .HasColumnName(nameof(PurchaseOrder.CompletionDate))
+                      .HasColumnOrder(5)
+                      .HasColumnType("datetime2")
+                      .HasPrecision(7)
+                      .IsRequired(false);
 
-            entity.Property(e => e.DateCreated)
-                  .HasColumnName(nameof(PurchaseOrder.DateCreated))
-                  .HasColumnOrder(6)
-                  .HasColumnType("datetime2")
-                  .HasPrecision(7)
-                  .HasDefaultValueSql("GETDATE()")
-                  .IsRequired(true);
+                entity.Property(e => e.DateCreated)
+                      .HasColumnName(nameof(PurchaseOrder.DateCreated))
+                      .HasColumnOrder(6)
+                      .HasColumnType("datetime2")
+                      .HasPrecision(7)
+                      .HasDefaultValueSql("GETDATE()")
+                      .IsRequired(true);
 
-            entity.Property(e => e.DateModified)
-                  .HasColumnName(nameof(PurchaseOrder.DateModified))
-                  .HasColumnOrder(7)
-                  .HasColumnType("datetime2")
-                  .HasPrecision(7)
-                  .IsRequired(false);
+                entity.Property(e => e.DateModified)
+                      .HasColumnName(nameof(PurchaseOrder.DateModified))
+                      .HasColumnOrder(7)
+                      .HasColumnType("datetime2")
+                      .HasPrecision(7)
+                      .IsRequired(false);
 
-            entity.Property(e => e.DateDeleted)
-                  .HasColumnName(nameof(PurchaseOrder.DateDeleted))
-                  .HasColumnOrder(8)
-                  .HasColumnType("datetime2")
-                  .HasPrecision(7)
-                  .IsRequired(false);
+                entity.Property(e => e.DateDeleted)
+                      .HasColumnName(nameof(PurchaseOrder.DateDeleted))
+                      .HasColumnOrder(8)
+                      .HasColumnType("datetime2")
+                      .HasPrecision(7)
+                      .IsRequired(false);
 
-            // Propriété anti-concurrence RowVersion
-            entity.Property(e => e.RowVersion)
-                  .HasColumnName(nameof(PurchaseOrder.RowVersion))
-                  .HasColumnOrder(9)
-                  .IsRowVersion();
+                // Propriété anti-concurrence RowVersion
+                entity.Property(e => e.RowVersion)
+                      .HasColumnName(nameof(PurchaseOrder.RowVersion))
+                      .HasColumnOrder(9)
+                      .IsRowVersion();
 
-            // Associations
-            entity.HasOne(e => e.Warehouse)
-                  .WithMany()
-                  .HasForeignKey(e => e.WarehouseId)
-                  .OnDelete(DeleteBehavior.Cascade);
-        }))
-        ) ;
-
-        // Relations
-        modelBuilder.Entity<Product>()
-            .HasOne(p => p.Supplier)
-            .WithMany(s => s.Products)
-            .HasForeignKey(p => p.SupplierId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        // Configuration pour Client
-        modelBuilder.Entity<Client>()
-            .ToTable(nameof(Clients))
-            .HasKey(x => x.Id);
-
-        modelBuilder.Entity<Client>()
-            .Property(x => x.Id)
-            .HasColumnName(nameof(Client.Id))
-            .HasColumnType("int")
-            .UseIdentityColumn(1, 1);
-
-        modelBuilder.Entity<Client>()
-            .Property(x => x.ClientName)
-            .HasColumnName(nameof(Client.ClientName))
-            .HasColumnType("nvarchar(128)")
-            .IsRequired(true);
-
-        modelBuilder.Entity<Client>()
-            .Property(x => x.DateCreated)
-            .HasColumnName(nameof(Client.DateCreated))
-            .HasColumnType("datetime2")
-            .HasPrecision(7)
-            .HasDefaultValueSql("GETDATE()")
-            .IsRequired(true);
-
-        modelBuilder.Entity<Client>()
-            .Property(x => x.DateModified)
-            .HasColumnName(nameof(Client.DateModified))
-            .HasColumnType("datetime2")
-            .HasPrecision(7);
-
-        modelBuilder.Entity<Client>()
-            .Property(x => x.DateDeleted)
-            .HasColumnName(nameof(Client.DateDeleted))
-            .HasColumnType("datetime2")
-            .HasPrecision(7);
-
-        modelBuilder.Entity<Client>()
-            .Property(x => x.RowVersion)
-            .HasColumnName(nameof(Client.RowVersion))
-            .IsRowVersion();
-
-        // Configuration pour Warehouse
-        modelBuilder.Entity<Warehouse>()
-            .ToTable(nameof(Warehouses))
-            .HasKey(x => x.Id);
-
-        modelBuilder.Entity<Warehouse>()
-            .Property(x => x.Id)
-            .HasColumnName(nameof(Warehouse.Id))
-            .HasColumnType("int")
-            .UseIdentityColumn(1, 1);
-
-        modelBuilder.Entity<Warehouse>()
-            .Property(x => x.WarehouseName)
-            .HasColumnName(nameof(Warehouse.WarehouseName))
-            .HasColumnType("nvarchar(128)")
-            .IsRequired(true);
-
-        modelBuilder.Entity<Warehouse>()
-            .Property(x => x.AddressId)
-            .HasColumnName(nameof(Warehouse.AddressId))
-            .HasColumnType("int")
-            .IsRequired(true);
-
-        modelBuilder.Entity<Warehouse>()
-            .Property(x => x.DateCreated)
-            .HasColumnName(nameof(Warehouse.DateCreated))
-            .HasColumnType("datetime2")
-            .HasPrecision(7)
-            .HasDefaultValueSql("GETDATE()")
-            .IsRequired(true);
-
-        modelBuilder.Entity<Warehouse>()
-            .Property(x => x.DateModified)
-            .HasColumnName(nameof(Warehouse.DateModified))
-            .HasColumnType("datetime2")
-            .HasPrecision(7);
-
-        modelBuilder.Entity<Warehouse>()
-            .Property(x => x.DateDeleted)
-            .HasColumnName(nameof(Warehouse.DateDeleted))
-            .HasColumnType("datetime2")
-            .HasPrecision(7);
-
-        modelBuilder.Entity<Warehouse>()
-            .Property(x => x.RowVersion)
-            .HasColumnName(nameof(Warehouse.RowVersion))
-            .IsRowVersion();
+                // Associations
+                entity.HasOne(e => e.Warehouse)
+                      .WithMany()
+                      .HasForeignKey(e => e.WarehouseId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            }
+            );
 
 
+            // Relations
+            modelBuilder.Entity<Product>()
+                .HasOne(p => p.Supplier)
+                .WithMany(s => s.Products)
+                .HasForeignKey(p => p.SupplierId)
+                .OnDelete(DeleteBehavior.Restrict);
 
-        // TODO @TOUT_LE_MONDE: configurez les relations entre les entités ici
+            // Configuration pour Client
+            modelBuilder.Entity<Client>()
+                .ToTable(nameof(Client))
+                .HasKey(x => x.Id);
 
-        modelBuilder.Entity<Warehouse>()
-               .HasMany(w => w.Clients)
-               .WithOne(c => c.Warehouse)
-               .HasForeignKey(c => c.WarehouseId)
-               .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Client>()
+                .Property(x => x.Id)
+                .HasColumnName(nameof(Client.Id))
+                .HasColumnType("int")
+                .UseIdentityColumn(1, 1);
+
+            modelBuilder.Entity<Client>()
+                .Property(x => x.ClientName)
+                .HasColumnName(nameof(Client.ClientName))
+                .HasColumnType("nvarchar(128)")
+                .IsRequired(true);
+
+            modelBuilder.Entity<Client>()
+                .Property(x => x.DateCreated)
+                .HasColumnName(nameof(Client.DateCreated))
+                .HasColumnType("datetime2")
+                .HasPrecision(7)
+                .HasDefaultValueSql("GETDATE()")
+                .IsRequired(true);
+
+            modelBuilder.Entity<Client>()
+                .Property(x => x.DateModified)
+                .HasColumnName(nameof(Client.DateModified))
+                .HasColumnType("datetime2")
+                .HasPrecision(7);
+
+            modelBuilder.Entity<Client>()
+                .Property(x => x.DateDeleted)
+                .HasColumnName(nameof(Client.DateDeleted))
+                .HasColumnType("datetime2")
+                .HasPrecision(7);
+
+            modelBuilder.Entity<Client>()
+                .Property(x => x.RowVersion)
+                .HasColumnName(nameof(Client.RowVersion))
+                .IsRowVersion();
+
+            // Configuration pour Warehouse
+            modelBuilder.Entity<Warehouse>()
+                .ToTable(nameof(Warehouse))
+                .HasKey(x => x.Id);
+
+            modelBuilder.Entity<Warehouse>()
+                .Property(x => x.Id)
+                .HasColumnName(nameof(Warehouse.Id))
+                .HasColumnType("int")
+                .UseIdentityColumn(1, 1);
+
+            modelBuilder.Entity<Warehouse>()
+                .Property(x => x.WarehouseName)
+                .HasColumnName(nameof(Warehouse.WarehouseName))
+                .HasColumnType("nvarchar(128)")
+                .IsRequired(true);
+
+            modelBuilder.Entity<Warehouse>()
+                .Property(x => x.AddressId)
+                .HasColumnName(nameof(Warehouse.AddressId))
+                .HasColumnType("int")
+                .IsRequired(true);
+
+            modelBuilder.Entity<Warehouse>()
+                .Property(x => x.DateCreated)
+                .HasColumnName(nameof(Warehouse.DateCreated))
+                .HasColumnType("datetime2")
+                .HasPrecision(7)
+                .HasDefaultValueSql("GETDATE()")
+                .IsRequired(true);
+
+            modelBuilder.Entity<Warehouse>()
+                .Property(x => x.DateModified)
+                .HasColumnName(nameof(Warehouse.DateModified))
+                .HasColumnType("datetime2")
+                .HasPrecision(7);
+
+            modelBuilder.Entity<Warehouse>()
+                .Property(x => x.DateDeleted)
+                .HasColumnName(nameof(Warehouse.DateDeleted))
+                .HasColumnType("datetime2")
+                .HasPrecision(7);
+
+            modelBuilder.Entity<Warehouse>()
+                .Property(x => x.RowVersion)
+                .HasColumnName(nameof(Warehouse.RowVersion))
+                .IsRowVersion();
 
 
 
+            // TODO @TOUT_LE_MONDE: configurez les relations entre les entités ici
 
+            modelBuilder.Entity<Warehouse>()
+                   .HasMany(w => w.Clients)
+                   .WithOne(c => c.Warehouse)
+                   .HasForeignKey(c => c.WarehouseId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
 
 
 
 
-        // TODO @TOUT_LE_MONDE: ajouter l'insertion de données initiales ici
-        modelBuilder.Entity<Warehouse>().HasData(new Warehouse {
-            Id = 1,
-            WarehouseName = "Main Warehouse",
-            AddressId = 1,
-            DateCreated = DateTime.Now
-        });
 
-        modelBuilder.Entity<Client>().HasData(new Client {
-            Id = 1,
-            ClientName = "Default Client",
-            WarehouseId = 1,
-            DateCreated = DateTime.Now
-        });
-        modelBuilder.Entity<Address>().HasData(new Address {
-            Id = 1;
-            Addressee = "122 Rue Sainte Catherine ";
-            CivicNumber = "122";
-            Street = "Rue Saint Catherine ";
-            City = "Montreal";
-            State = "Quebec";
-            Country = "Canada";
-            PostalCode = "H2B0S7";
-            DateCreated = DateTime.Now();
+
+
+
+            // TODO @TOUT_LE_MONDE: ajouter l'insertion de données initiales ici
+            modelBuilder.Entity<Warehouse>().HasData(new Warehouse {
+                Id = 1,
+                WarehouseName = "Main Warehouse",
+                AddressId = 1,
+                DateCreated = DateTime.Now
+            });
+
+            modelBuilder.Entity<Client>().HasData(new Client {
+                Id = 1,
+                ClientName = "Default Client",
+                WarehouseId = 1,
+                DateCreated = DateTime.Now
+            });
+            modelBuilder.Entity<PurchaseOrder>().HasData(new PurchaseOrder {
+                Id = 1,
+                Quantity = 4,
+                ProductId = 15
+
 
 
         });
+            ;
+            ;
 
-    }
+            modelBuilder.Entity<Address>().HasData(new Address {
+                Id = 1,
+                Addressee = "122 Rue Sainte Catherine ",
+                CivicNumber = "122",
+                Street = "Rue Saint Catherine ",
+                City = "Montreal",
+                State = "Quebec",
+                Country = "Canada",
+                PostalCode = "H2B0S7",
+                DateCreated = DateTime.Now
+                
+            });
+
+        });
 
 
 

@@ -48,12 +48,13 @@ public class PurchaseOrder {
 
     // UNDONE @BRAHEM: créer 2 constructeurs: 1 orienté création par utilisateurs, 1 orienté EF Core
 
-    public PurchaseOrder(int ProductId, int WarehouseId , int Quantity) {
-        ProductId = ProductId;
-        WarehouseId = WarehouseId;
-        Quantity = Quantity;
+    public PurchaseOrder(int productId, int warehouseId , int quantity, byte[] RowVersion) {
+        ProductId = productId;
+        WarehouseId = warehouseId;
+        this.Quantity = quantity;
         Status = PurchaseOrderStatusEnum.Pending;
-        DateCreated = DateTime.Now;
+        this.DateCreated = DateTime.Now;
+        RowVersion = RowVersion; 
 
     }
 

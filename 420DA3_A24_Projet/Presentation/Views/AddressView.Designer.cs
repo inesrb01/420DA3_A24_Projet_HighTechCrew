@@ -1,4 +1,8 @@
-﻿namespace _420DA3_A24_Projet.Presentation.Views;
+﻿using _420DA3_A24_Projet.Business.Domain;
+using _420DA3_A24_Projet.DataAccess.Contexts;
+using _420DA3_A24_Projet.DataAccess.DAOs;
+using _420DA3_A24_Projet.Presentation.Views;
+namespace _420DA3_A24_Projet.Presentation.Views;
 
 partial class AddressView {
     /// <summary>
@@ -16,7 +20,7 @@ partial class AddressView {
         }
         base.Dispose(disposing);
     }
-    public void OpenFor(string addressType) {
+    public void OpenFor(ViewModeEnum, Address? = null) {
         Console.WriteLine($"Ouverture de la vue pour le type d'adresse : {addressType}");
         // Ajoutez ici le code nécessaire pour ouvrir ou afficher une vue spécifique.
     }

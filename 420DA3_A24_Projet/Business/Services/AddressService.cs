@@ -17,7 +17,7 @@ internal class AddressService {
 
     private WsysApplication parentApp;
     private AddressDAO dao;
-    private AddressView view;
+    private AddressView View;
     private AppDbContext context;
 
     public AddressService(WsysApplication application, AppDbContext contexte) {
@@ -29,7 +29,7 @@ internal class AddressService {
 
     public Address? OpenViewFor(ViewActionsEnum viewAction, Address? address = null) {
         try {
-            DialogResult result = this.view.OpenFor(viewAction, address);
+            DialogResult result = this.View.OpenFor(viewAction, address);
             if (result == DialogResult.OK) {
                 switch (viewAction) {
                     case ViewActionsEnum.Creation:
