@@ -16,6 +16,7 @@ namespace _420DA3_A24_Projet.Presentation.Views;
 internal partial class ShippingOrderView : Form {
     private WsysApplication parentApp;
     private bool isInitialized = false;
+    private ShippingOrder currentOrder;
 
 
     public ShippingOrderView(WsysApplication application) {
@@ -31,6 +32,15 @@ internal partial class ShippingOrderView : Form {
     private void ReloadStatusComboBox() {
         cmbStatut.Items.Clear();
         cmbStatut.Items.AddRange(Enum.GetNames(typeof(ShippingOrderStatusEnum)));
+    }
+    private void LoadOrderData() {
+        
+        if (currentOrder != null) {
+            txtClientSource.Text = currentOrder.ClientName;
+            txtDestinationAddresse.Text = currentOrder.DestinationAddress;
+            cmbStatut.SelectedItem = currentOrder.Status.ToString();
+            numQuantiteAjouter.Value = currentOrder.Quantity;
+        }
     }
     public DialogResult OpenForCreation(ShippingOrder instance) {
         this.PreOpenSetup(instance, ViewActionsEnum.Creation, "Création d'un ordre d'expédition", "Créer");
