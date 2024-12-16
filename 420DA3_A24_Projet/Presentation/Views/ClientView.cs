@@ -211,7 +211,7 @@ public partial class ClientView : Form {
 
     private void label1_Click(object sender, EventArgs e) {
         try {
-            string clientName = "John Doe"; // Replace with dynamic data
+            string clientName = "John Doe"; 
             MessageBox.Show($"You clicked on the ClientName label. Current client name is: {clientName}",
                             "Client Name", MessageBoxButtons.OK, MessageBoxIcon.Information);
         } catch (Exception ex) {
@@ -221,7 +221,7 @@ public partial class ClientView : Form {
 
     private void label2_Click(object sender, EventArgs e) {
         try {
-            string contactEmail = "example@email.com"; // Replace with dynamic data
+            string contactEmail = "JohnDoe@email.com"; 
             MessageBox.Show($"You clicked on the ContactEmail label. Current email is: {contactEmail}",
                             "Contact Email", MessageBoxButtons.OK, MessageBoxIcon.Information);
         } catch (Exception ex) {
@@ -231,7 +231,7 @@ public partial class ClientView : Form {
 
     private void label3_Click(object sender, EventArgs e) {
         try {
-            string contactFirstName = "John"; // Replace with dynamic data
+            string contactFirstName = "John"; 
             MessageBox.Show($"You clicked on the ContactFirstName label. Current first name is: {contactFirstName}",
                             "Contact First Name", MessageBoxButtons.OK, MessageBoxIcon.Information);
         } catch (Exception ex) {
@@ -241,7 +241,7 @@ public partial class ClientView : Form {
 
     private void label4_Click(object sender, EventArgs e) {
         try {
-            string contactLastName = "Smith"; // Replace with dynamic data
+            string contactLastName = "Doe"; 
             MessageBox.Show($"You clicked on the ContactLastName label. Current last name is: {contactLastName}",
                             "Contact Last Name", MessageBoxButtons.OK, MessageBoxIcon.Information);
         } catch (Exception ex) {
@@ -251,7 +251,7 @@ public partial class ClientView : Form {
 
     private void label5_Click(object sender, EventArgs e) {
         try {
-            string contactPhone = "+1-555-123-4567"; // Replace with dynamic data
+            string contactPhone = "+1-438-467-4899"; 
             MessageBox.Show($"You clicked on the ContactPhone label. Current phone number is: {contactPhone}",
                             "Contact Phone", MessageBoxButtons.OK, MessageBoxIcon.Information);
         } catch (Exception ex) {
@@ -279,11 +279,9 @@ public partial class ClientView : Form {
 
     private void textBox7_TextChanged(object sender, EventArgs e) {
         try {
-            // Cast sender to TextBox to get the current input
             TextBox textBox = sender as TextBox;
             if (textBox != null) {
                 string currentText = textBox.Text;
-                // Example: Update a label or log the current text
                 Console.WriteLine($"ContactEmail updated to: {currentText}");
             }
         } catch (Exception ex) {
