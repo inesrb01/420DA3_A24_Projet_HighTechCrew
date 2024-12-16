@@ -11,7 +11,7 @@ internal class WsysApplication {
     public ShipmentService ShipmentService { get; set; }
     public ShippingOrderService ShippingOrderService { get; set; }
 
-
+    public ClientService ClientService { get; set; }
 
 
     public WsysApplication() {

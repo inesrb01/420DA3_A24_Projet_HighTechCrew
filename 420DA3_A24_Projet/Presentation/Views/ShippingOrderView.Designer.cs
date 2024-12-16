@@ -25,19 +25,29 @@ partial class ShippingOrderView {
     /// </summary>
     private void InitializeComponent() {
         this.TopPanel = new Panel();
+        this.label1 = new Label();
+        this.lblMode = new Label();
         this.lastPanel = new Panel();
         this.btnAnnuler = new Button();
         this.btnAction = new Button();
         this.centre = new TableLayoutPanel();
         this.panel2 = new Panel();
-        this.button3 = new Button();
-        this.textBox3 = new TextBox();
-        this.groupBox2 = new GroupBox();
-        this.label1 = new Label();
-        this.button4 = new Button();
-        this.textBox4 = new TextBox();
+        this.lblChangQuantite = new Label();
+        this.btnRetirerProduit = new Button();
+        this.numChangerQuantite = new NumericUpDown();
+        this.dtpDateExpedition = new DateTimePicker();
+        this.lbldateexpedition = new Label();
+        this.productOrderList = new ListBox();
+        this.dtpDateSuppression = new DateTimePicker();
+        this.dtpDateModification = new DateTimePicker();
+        this.dtpDateCreation = new DateTimePicker();
+        this.lblDeletDate = new Label();
+        this.lblModificationDate = new Label();
+        this.lblCreationDate = new Label();
+        this.label3 = new Label();
+        this.lblPlaceHolder = new Label();
         this.centerPanel = new Panel();
-        this.textBox1 = new TextBox();
+        this.txtClientSource = new TextBox();
         this.numId = new NumericUpDown();
         this.grpBoxGestion = new GroupBox();
         this.numQuantiteAjouter = new NumericUpDown();
@@ -48,15 +58,16 @@ partial class ShippingOrderView {
         this.btnCreerAdresse = new Button();
         this.txtDestinationAddresse = new TextBox();
         this.cmbClient = new ComboBox();
-        this.cmbStatus = new ComboBox();
+        this.cmbStatut = new ComboBox();
         this.lblAdresse = new Label();
         this.lblClient = new Label();
         this.lblStatus = new Label();
         this.lblId = new Label();
+        this.TopPanel.SuspendLayout();
         this.lastPanel.SuspendLayout();
         this.centre.SuspendLayout();
         this.panel2.SuspendLayout();
-        this.groupBox2.SuspendLayout();
+        ((System.ComponentModel.ISupportInitialize) this.numChangerQuantite).BeginInit();
         this.centerPanel.SuspendLayout();
         ((System.ComponentModel.ISupportInitialize) this.numId).BeginInit();
         this.grpBoxGestion.SuspendLayout();
@@ -65,11 +76,31 @@ partial class ShippingOrderView {
         // 
         // TopPanel
         // 
+        this.TopPanel.Controls.Add(this.label1);
+        this.TopPanel.Controls.Add(this.lblMode);
         this.TopPanel.Dock = DockStyle.Top;
         this.TopPanel.Location = new Point(0, 0);
         this.TopPanel.Name = "TopPanel";
         this.TopPanel.Size = new Size(1120, 50);
         this.TopPanel.TabIndex = 0;
+        // 
+        // label1
+        // 
+        this.label1.AutoSize = true;
+        this.label1.Location = new Point(128, 12);
+        this.label1.Name = "label1";
+        this.label1.Size = new Size(106, 25);
+        this.label1.TabIndex = 1;
+        this.label1.Text = "PlaceHolder";
+        // 
+        // lblMode
+        // 
+        this.lblMode.AutoSize = true;
+        this.lblMode.Location = new Point(39, 12);
+        this.lblMode.Name = "lblMode";
+        this.lblMode.Size = new Size(63, 25);
+        this.lblMode.TabIndex = 0;
+        this.lblMode.Text = "Mode:";
         // 
         // lastPanel
         // 
@@ -106,7 +137,7 @@ partial class ShippingOrderView {
         this.centre.ColumnCount = 4;
         this.centre.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
         this.centre.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 450F));
-        this.centre.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 450F));
+        this.centre.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 522F));
         this.centre.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
         this.centre.Controls.Add(this.panel2, 2, 0);
         this.centre.Controls.Add(this.centerPanel, 1, 0);
@@ -120,95 +151,164 @@ partial class ShippingOrderView {
         // 
         // panel2
         // 
-        this.panel2.Controls.Add(this.button3);
-        this.panel2.Controls.Add(this.textBox3);
-        this.panel2.Controls.Add(this.groupBox2);
+        this.panel2.Controls.Add(this.lblChangQuantite);
+        this.panel2.Controls.Add(this.btnRetirerProduit);
+        this.panel2.Controls.Add(this.numChangerQuantite);
+        this.panel2.Controls.Add(this.dtpDateExpedition);
+        this.panel2.Controls.Add(this.lbldateexpedition);
+        this.panel2.Controls.Add(this.productOrderList);
+        this.panel2.Controls.Add(this.dtpDateSuppression);
+        this.panel2.Controls.Add(this.dtpDateModification);
+        this.panel2.Controls.Add(this.dtpDateCreation);
+        this.panel2.Controls.Add(this.lblDeletDate);
+        this.panel2.Controls.Add(this.lblModificationDate);
+        this.panel2.Controls.Add(this.lblCreationDate);
+        this.panel2.Controls.Add(this.label3);
+        this.panel2.Controls.Add(this.lblPlaceHolder);
         this.panel2.Dock = DockStyle.Fill;
-        this.panel2.Location = new Point(563, 3);
+        this.panel2.Location = new Point(527, 3);
         this.panel2.Name = "panel2";
-        this.panel2.Size = new Size(444, 544);
+        this.panel2.Size = new Size(516, 544);
         this.panel2.TabIndex = 2;
         // 
-        // button3
+        // lblChangQuantite
         // 
-        this.button3.Location = new Point(13, 480);
-        this.button3.Name = "button3";
-        this.button3.Size = new Size(112, 34);
-        this.button3.TabIndex = 12;
-        this.button3.Text = "Retirer";
-        this.button3.UseVisualStyleBackColor = true;
+        this.lblChangQuantite.AutoSize = true;
+        this.lblChangQuantite.Location = new Point(355, 367);
+        this.lblChangQuantite.Name = "lblChangQuantite";
+        this.lblChangQuantite.Size = new Size(148, 25);
+        this.lblChangQuantite.TabIndex = 28;
+        this.lblChangQuantite.Text = "Changer quantite";
         // 
-        // textBox3
+        // btnRetirerProduit
         // 
-        this.textBox3.Location = new Point(204, 501);
-        this.textBox3.Name = "textBox3";
-        this.textBox3.Size = new Size(150, 31);
-        this.textBox3.TabIndex = 11;
+        this.btnRetirerProduit.Location = new Point(320, 327);
+        this.btnRetirerProduit.Name = "btnRetirerProduit";
+        this.btnRetirerProduit.Size = new Size(183, 34);
+        this.btnRetirerProduit.TabIndex = 27;
+        this.btnRetirerProduit.Text = "Retirer";
+        this.btnRetirerProduit.UseVisualStyleBackColor = true;
         // 
-        // groupBox2
+        // numChangerQuantite
         // 
-        this.groupBox2.Controls.Add(this.label1);
-        this.groupBox2.Controls.Add(this.button4);
-        this.groupBox2.Controls.Add(this.textBox4);
-        this.groupBox2.Location = new Point(17, 251);
-        this.groupBox2.Name = "groupBox2";
-        this.groupBox2.Size = new Size(374, 234);
-        this.groupBox2.TabIndex = 9;
-        this.groupBox2.TabStop = false;
-        this.groupBox2.Text = "Gestion des produits";
+        this.numChangerQuantite.Location = new Point(333, 406);
+        this.numChangerQuantite.Name = "numChangerQuantite";
+        this.numChangerQuantite.Size = new Size(180, 31);
+        this.numChangerQuantite.TabIndex = 26;
         // 
-        // label1
+        // dtpDateExpedition
         // 
-        this.label1.AutoSize = true;
-        this.label1.Location = new Point(91, 175);
-        this.label1.Name = "label1";
-        this.label1.Size = new Size(149, 25);
-        this.label1.TabIndex = 4;
-        this.label1.Text = "Produits ajoutés :";
+        this.dtpDateExpedition.Location = new Point(213, 141);
+        this.dtpDateExpedition.Name = "dtpDateExpedition";
+        this.dtpDateExpedition.Size = new Size(300, 31);
+        this.dtpDateExpedition.TabIndex = 25;
         // 
-        // button4
+        // lbldateexpedition
         // 
-        this.button4.Location = new Point(251, 134);
-        this.button4.Name = "button4";
-        this.button4.Size = new Size(112, 34);
-        this.button4.TabIndex = 3;
-        this.button4.Text = "Ajouter";
-        this.button4.UseVisualStyleBackColor = true;
+        this.lbldateexpedition.Location = new Point(10, 142);
+        this.lbldateexpedition.Name = "lbldateexpedition";
+        this.lbldateexpedition.Size = new Size(197, 34);
+        this.lbldateexpedition.TabIndex = 24;
+        this.lbldateexpedition.Text = "Date d'expidition";
         // 
-        // textBox4
+        // productOrderList
         // 
-        this.textBox4.Location = new Point(45, 98);
-        this.textBox4.Name = "textBox4";
-        this.textBox4.Size = new Size(150, 31);
-        this.textBox4.TabIndex = 1;
+        this.productOrderList.FormattingEnabled = true;
+        this.productOrderList.ItemHeight = 25;
+        this.productOrderList.Location = new Point(15, 330);
+        this.productOrderList.Name = "productOrderList";
+        this.productOrderList.Size = new Size(288, 204);
+        this.productOrderList.TabIndex = 23;
+        // 
+        // dtpDateSuppression
+        // 
+        this.dtpDateSuppression.Location = new Point(213, 230);
+        this.dtpDateSuppression.Name = "dtpDateSuppression";
+        this.dtpDateSuppression.Size = new Size(300, 31);
+        this.dtpDateSuppression.TabIndex = 22;
+        // 
+        // dtpDateModification
+        // 
+        this.dtpDateModification.Location = new Point(213, 186);
+        this.dtpDateModification.Name = "dtpDateModification";
+        this.dtpDateModification.Size = new Size(300, 31);
+        this.dtpDateModification.TabIndex = 21;
+        // 
+        // dtpDateCreation
+        // 
+        this.dtpDateCreation.Location = new Point(213, 98);
+        this.dtpDateCreation.Name = "dtpDateCreation";
+        this.dtpDateCreation.Size = new Size(300, 31);
+        this.dtpDateCreation.TabIndex = 20;
+        // 
+        // lblDeletDate
+        // 
+        this.lblDeletDate.Location = new Point(10, 235);
+        this.lblDeletDate.Name = "lblDeletDate";
+        this.lblDeletDate.Size = new Size(197, 34);
+        this.lblDeletDate.TabIndex = 19;
+        this.lblDeletDate.Text = "Date de suppression";
+        // 
+        // lblModificationDate
+        // 
+        this.lblModificationDate.Location = new Point(10, 191);
+        this.lblModificationDate.Name = "lblModificationDate";
+        this.lblModificationDate.Size = new Size(197, 34);
+        this.lblModificationDate.TabIndex = 18;
+        this.lblModificationDate.Text = "Date de modification";
+        // 
+        // lblCreationDate
+        // 
+        this.lblCreationDate.Location = new Point(3, 103);
+        this.lblCreationDate.Name = "lblCreationDate";
+        this.lblCreationDate.Size = new Size(197, 34);
+        this.lblCreationDate.TabIndex = 17;
+        this.lblCreationDate.Text = "Date de Création";
+        // 
+        // label3
+        // 
+        this.label3.Location = new Point(15, 28);
+        this.label3.Name = "label3";
+        this.label3.Size = new Size(197, 34);
+        this.label3.TabIndex = 14;
+        this.label3.Text = "emplye creator:";
+        // 
+        // lblPlaceHolder
+        // 
+        this.lblPlaceHolder.Location = new Point(234, 21);
+        this.lblPlaceHolder.Margin = new Padding(5);
+        this.lblPlaceHolder.Name = "lblPlaceHolder";
+        this.lblPlaceHolder.Size = new Size(249, 38);
+        this.lblPlaceHolder.TabIndex = 13;
+        this.lblPlaceHolder.Text = "PLACEHOLDER";
+        this.lblPlaceHolder.TextAlign = ContentAlignment.MiddleLeft;
         // 
         // centerPanel
         // 
-        this.centerPanel.Controls.Add(this.textBox1);
+        this.centerPanel.Controls.Add(this.txtClientSource);
         this.centerPanel.Controls.Add(this.numId);
         this.centerPanel.Controls.Add(this.grpBoxGestion);
         this.centerPanel.Controls.Add(this.btnCreerAdresse);
         this.centerPanel.Controls.Add(this.txtDestinationAddresse);
         this.centerPanel.Controls.Add(this.cmbClient);
-        this.centerPanel.Controls.Add(this.cmbStatus);
+        this.centerPanel.Controls.Add(this.cmbStatut);
         this.centerPanel.Controls.Add(this.lblAdresse);
         this.centerPanel.Controls.Add(this.lblClient);
         this.centerPanel.Controls.Add(this.lblStatus);
         this.centerPanel.Controls.Add(this.lblId);
         this.centerPanel.Dock = DockStyle.Fill;
-        this.centerPanel.Location = new Point(113, 3);
+        this.centerPanel.Location = new Point(77, 3);
         this.centerPanel.Name = "centerPanel";
         this.centerPanel.Size = new Size(444, 544);
         this.centerPanel.TabIndex = 0;
         // 
-        // textBox1
+        // txtClientSource
         // 
-        this.textBox1.Location = new Point(214, 102);
-        this.textBox1.Name = "textBox1";
-        this.textBox1.PlaceholderText = "Rechercher un client";
-        this.textBox1.Size = new Size(227, 31);
-        this.textBox1.TabIndex = 11;
-        this.textBox1.TextChanged += this.textBox1_TextChanged;
+        this.txtClientSource.Location = new Point(214, 102);
+        this.txtClientSource.Name = "txtClientSource";
+        this.txtClientSource.PlaceholderText = "Rechercher un client";
+        this.txtClientSource.Size = new Size(227, 31);
+        this.txtClientSource.TabIndex = 11;
         // 
         // numId
         // 
@@ -297,13 +397,13 @@ partial class ShippingOrderView {
         this.cmbClient.Size = new Size(227, 33);
         this.cmbClient.TabIndex = 6;
         // 
-        // cmbStatus
+        // cmbStatut
         // 
-        this.cmbStatus.FormattingEnabled = true;
-        this.cmbStatus.Location = new Point(214, 52);
-        this.cmbStatus.Name = "cmbStatus";
-        this.cmbStatus.Size = new Size(227, 33);
-        this.cmbStatus.TabIndex = 5;
+        this.cmbStatut.FormattingEnabled = true;
+        this.cmbStatut.Location = new Point(214, 52);
+        this.cmbStatut.Name = "cmbStatut";
+        this.cmbStatut.Size = new Size(227, 33);
+        this.cmbStatut.TabIndex = 5;
         // 
         // lblAdresse
         // 
@@ -351,12 +451,13 @@ partial class ShippingOrderView {
         this.MinimumSize = new Size(450, 500);
         this.Name = "ShippingOrderView";
         this.Text = "ShippingOrderView";
+        this.TopPanel.ResumeLayout(false);
+        this.TopPanel.PerformLayout();
         this.lastPanel.ResumeLayout(false);
         this.centre.ResumeLayout(false);
         this.panel2.ResumeLayout(false);
         this.panel2.PerformLayout();
-        this.groupBox2.ResumeLayout(false);
-        this.groupBox2.PerformLayout();
+        ((System.ComponentModel.ISupportInitialize) this.numChangerQuantite).EndInit();
         this.centerPanel.ResumeLayout(false);
         this.centerPanel.PerformLayout();
         ((System.ComponentModel.ISupportInitialize) this.numId).EndInit();
@@ -381,20 +482,30 @@ partial class ShippingOrderView {
     private Button btnCreerAdresse;
     private TextBox txtDestinationAddresse;
     private ComboBox cmbClient;
-    private ComboBox cmbStatus;
+    private ComboBox cmbStatut;
     private GroupBox grpBoxGestion;
     private ListBox listProduitsDisponible;
     private Label lblQuantiteAjouter;
     private TextBox txtQuantiteAjoute;
     private Button btnAjouterProduit;
     private Panel panel2;
-    private Button button3;
-    private TextBox textBox3;
-    private GroupBox groupBox2;
-    private Label label1;
-    private Button button4;
-    private TextBox textBox4;
     private NumericUpDown numId;
     private NumericUpDown numQuantiteAjouter;
-    private TextBox textBox1;
+    private TextBox txtClientSource;
+    private Label lblPlaceHolder;
+    private Label lblModificationDate;
+    private Label lblCreationDate;
+    private Label label3;
+    private Label lblDeletDate;
+    private DateTimePicker dtpDateSuppression;
+    private DateTimePicker dtpDateModification;
+    private DateTimePicker dtpDateCreation;
+    private ListBox productOrderList;
+    private DateTimePicker dtpDateExpedition;
+    private Label lbldateexpedition;
+    private Label lblChangQuantite;
+    private Button btnRetirerProduit;
+    private NumericUpDown numChangerQuantite;
+    private Label lblMode;
+    private Label label1;
 }
