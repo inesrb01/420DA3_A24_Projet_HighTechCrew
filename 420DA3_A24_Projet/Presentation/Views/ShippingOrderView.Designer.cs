@@ -316,7 +316,6 @@ partial class ShippingOrderView {
         this.numId.Name = "numId";
         this.numId.Size = new Size(227, 31);
         this.numId.TabIndex = 10;
-        this.numId.ValueChanged += this.numId_ValueChanged;
         // 
         // grpBoxGestion
         // 
