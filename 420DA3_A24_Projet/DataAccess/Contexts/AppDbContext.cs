@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.AxHost;
 
+namespace _420DA3_A24_Projet.DataAccess.Contexts;
+
 public class AppDbContext : DbContext {
     // DbSet Properties
     public DbSet<User> User { get; set; }

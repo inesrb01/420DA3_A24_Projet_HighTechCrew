@@ -11,9 +11,9 @@ using Microsoft.EntityFrameworkCore;
 namespace _420DA3_A24_Projet.DataAccess.DAOs;
 internal class SupplierDAO {
 
-    private readonly AppDbContexte _context;
+    private readonly AppDbContext _context;
 
-    public SupplierDAO(AppDbContexte context) {
+    public SupplierDAO(AppDbContext context) {
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 

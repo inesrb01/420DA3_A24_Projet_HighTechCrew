@@ -1,8 +1,7 @@
-﻿
-using _420DA3_A24_Projet.Business.Domain;
+﻿using _420DA3_A24_Projet.Business.Domain;
 using _420DA3_A24_Projet.DataAccess.Contexts;
 
-namespace _420DA3_A24_Exemple_Enseignant.DataAccess.Daos {
+namespace _420DA3_A24_Projet.DataAccess.DAOs {
     public class RoleDAO {
         private readonly AppDbContext context;
 
