@@ -30,4 +30,8 @@ internal partial class ShippingOrderView : Form {
     private void numId_ValueChanged(object sender, EventArgs e) {
 
     }
+
+    private void ShippingOrderView_Load(object sender, EventArgs e) {
+
+    }
 }
