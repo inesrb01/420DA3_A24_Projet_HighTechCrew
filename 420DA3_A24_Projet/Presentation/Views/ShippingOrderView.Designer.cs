@@ -188,6 +188,7 @@ partial class ShippingOrderView {
         this.btnRetirerProduit.TabIndex = 27;
         this.btnRetirerProduit.Text = "Retirer";
         this.btnRetirerProduit.UseVisualStyleBackColor = true;
+        this.btnRetirerProduit.Click += this.btnRetirerProduit_Click_1;
         // 
         // numChangerQuantite
         // 
@@ -219,6 +220,7 @@ partial class ShippingOrderView {
         this.productOrderList.Name = "productOrderList";
         this.productOrderList.Size = new Size(288, 204);
         this.productOrderList.TabIndex = 23;
+        this.productOrderList.SelectedIndexChanged += this.productOrderList_SelectedIndexChanged;
         // 
         // dtpDateSuppression
         // 
@@ -337,6 +339,7 @@ partial class ShippingOrderView {
         this.numQuantiteAjouter.Name = "numQuantiteAjouter";
         this.numQuantiteAjouter.Size = new Size(180, 31);
         this.numQuantiteAjouter.TabIndex = 11;
+        this.numQuantiteAjouter.ValueChanged += this.numQuantiteAjouter_ValueChanged_1;
         // 
         // btnAjouterProduit
         // 
@@ -439,6 +442,7 @@ partial class ShippingOrderView {
         this.lblId.TabIndex = 0;
         this.lblId.Text = "Id: ";
         this.lblId.TextAlign = ContentAlignment.MiddleRight;
+        this.lblId.Click += this.lblId_Click;
         // 
         // ShippingOrderView
         // 

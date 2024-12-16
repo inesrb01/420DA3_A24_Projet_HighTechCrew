@@ -27,7 +27,7 @@ public class Address {
     public int Id { get; set; }
 
     // TODO @BRAHEM: Ajouter une propriété AddressType de type AddressTypeEnum (Project_Utilities.Enums.AddressTypesEnum)
-    //public AddressTypeEnum AddressType { get; set; }
+    //public addresstypeenum addresstype { get; set; }
 
     public string Addressee {
         get { return this.addressee; }
@@ -69,7 +69,7 @@ public class Address {
         }
     }
 
-    public string State {
+    public string a {
         get { return this.state; }
         set {
             if (!ValidateState(value)) {
@@ -122,7 +122,7 @@ public class Address {
 
 
 
-    public Address(string addressee, string civicNumber, string street, string city, string state, string country, string postalCode) {
+    public Address(string addressee, string civicNumber, string street, string city, string state, string country, string postalCode, byte[] RowVersion) {
         this.Addressee = addressee;
         this.CivicNumber = civicNumber;
         this.Street = street;
@@ -130,18 +130,30 @@ public class Address {
         this.State = state;
         this.Country = country;
         this.PostalCode = postalCode;
+        this.RowVersion = RowVersion;
     }
 
+    public Address() {
 
+    }
     // Constructeur utilisé par Entity Framework
     // TODO @BRAHEM: Ajouter des paramètres pour les propriétés AddressType et RowVersion
-    protected Address(int id, string addressee, string civicNumber, string street, string city, string state, string country, string postalCode, byte[] RowVersion ,DateTime dateCreated, DateTime? dateModified, DateTime? dateDeleted)
-        : this(addressee, civicNumber, street, city, state, country, postalCode) {
+    public Address(int id, string addressee, string civicNumber, string street, string city, string state, string country, string postalCode, byte[] RowVersion ,DateTime dateCreated, DateTime? dateModified, DateTime? dateDeleted)
+        :this(addressee, civicNumber, street, city, state, country, postalCode, RowVersion) {
         this.Id = id;
+        this.Addressee = addressee;
+        this.CivicNumber = civicNumber;
+        this.Street = street;
+        this.City = city;
+        this.State = state;
+        this.Country = country;
+        this.PostalCode = postalCode;
+        this.RowVersion = RowVersion;
         this.DateCreated = dateCreated;
         this.DateModified = dateModified;
         this.DateDeleted = dateDeleted;
     }
+
 
     // Méthodes de validation
     // TODO @BRAHEM: Suggestion, utiliser ces méthodes de validation dans la validation de vos propriétés
