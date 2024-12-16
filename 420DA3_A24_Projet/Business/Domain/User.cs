@@ -34,10 +34,10 @@ public class User {
         }
     }
     public int? EmployeeWarehouseId { get; set; } // Nullable for optional warehouse assignment
-    public DateTime DateCreated { get; set; }
+    public DateTime DateCreated { get; set; } = DateTime.Now;
     public DateTime? DateDeleted { get; set; } // Nullable for optional values
     public DateTime? DateModified { get; set; } // Nullable for optional values
-    public byte[] RowVersion { get; set; } = null!;
+    public byte[]? RowVersion { get; set; } = null!;
 
     // TODO @DRISS: Ajouter le modificateur 'virtual' aux propriétés de navigation : ==>  Done
     public virtual List<Role> Roles { get; set; } = new List<Role>(); // Association with Role class
@@ -54,6 +54,9 @@ public class User {
         this.Username = username;
         this.PasswordHash = passwordHash;
         this.DateCreated = DateTime.Now; // TODO @DRISS: supprimer. Devrait être géré automatiquement par la BdD :  ==> Done ( check DbContext )
+    }
+    public User() {
+
     }
 
 
@@ -79,8 +82,6 @@ public class User {
     public User(string username, string passwordHash) {
         this.username = username;
         this.passwordHash = passwordHash;
-    }
-    public User() { 
     }
 
 
@@ -118,7 +119,7 @@ public class User {
     // publique. Pas besoin de setter son id dans la propriété EmployeeWarehouseId, EF Core va gérer tout ça.
     public void AssignWarehouse(Warehouse warehouse) {
         this.EmployeeWarehouse = warehouse;
-        this.EmployeeWarehouseId = warehouse?.entrepotID;
+        this.EmployeeWarehouseId = warehouse?.Id;
         this.DateModified = DateTime.Now; // TODO @DRISS: supprimer. Le set de date de modification devrait se faire dans le DAO
     }
     #endregion

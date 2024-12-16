@@ -42,7 +42,7 @@ public class Role {
     public DateTime DateCreated { get; set; }
     public DateTime? DateDeleted { get; set; } // Nullable for optional values
     public DateTime? DateModified { get; set; } // Nullable for optional values
-    public byte[] RowVersion { get; set; } = null!;
+    public byte[]? RowVersion { get; set; }
 
     // TODO @DRISS: Attention d'ajouter le modificateur 'virtual' aux propriétés de navigation :  ==> Done
     public virtual List<User> Users { get; set; } = new List<User>(); // Association with User class
@@ -79,9 +79,6 @@ public class Role {
     public Role(string roleName, string roleDescription) {
         this.roleName = roleName;
         this.roleDescription = roleDescription;
-    }
-    public Role() {
-     
     }
     #endregion
 

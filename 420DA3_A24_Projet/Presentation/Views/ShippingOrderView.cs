@@ -163,4 +163,8 @@ internal partial class ShippingOrderView : Form {
     private void lblId_Click(object sender, EventArgs e) {
 
     }
+
+    private void ShippingOrderView_Load(object sender, EventArgs e) {
+
+    }
 }
