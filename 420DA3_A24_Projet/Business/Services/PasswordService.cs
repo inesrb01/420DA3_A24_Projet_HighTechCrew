@@ -3,18 +3,13 @@
 namespace _420DA3_A24_Projet.Business.Services;
 
 
-/// <summary>
-/// Service cryptographique pour le hashage et la validation de mots de passe.
-/// </summary>
-/// <remarks>
-/// </remarks>
+
 public class PasswordService {
-    // Paramètres de hashage.
-    private const int saltSize = 16; // sel cryptographique de 128 bits
-    private const int keySize = 32; // clé cryptographique de 256 bits
-    private const int cryptographicIterations = 100000; // itérations de l'étirement de clé
-    private const char hashSegmentDelimiter = ':'; // séparateur des sections générées - NE PAS CHANGER (sinon hashs existants invalidables)
-    private static readonly HashAlgorithmName cryptographicAlgorithm = HashAlgorithmName.SHA256; // algorithme de base
+    private const int saltSize = 16; 
+    private const int keySize = 32; 
+    private const int cryptographicIterations = 100000; 
+    private const char hashSegmentDelimiter = ':'; 
+    private static readonly HashAlgorithmName cryptographicAlgorithm = HashAlgorithmName.SHA256; 
 
     private static PasswordService? instance;
 
@@ -26,15 +21,11 @@ public class PasswordService {
     }
 
 
-    /// <summary>
-    /// Fonction de hachage de mot de passe.
-    /// </summary>
-    /// <remarks>
+    
     /// Recoit le mot de passe en clair, non-encrypté, dans <paramref name="motDePasseNonEncrypte"/>.
     /// Retourne le mot de passe hashé sous forme de <see cref="string"/>.
-    /// </remarks>
     /// <param name="motDePasseNonEncrypte">Le mot de passe en clair, non-encrypté.</param>
-    /// <returns></returns>
+    
     public string HashPassword(string motDePasseNonEncrypte) {
         byte[] salt = RandomNumberGenerator.GetBytes(saltSize);
         byte[] key = Rfc2898DeriveBytes.Pbkdf2(
@@ -53,10 +44,7 @@ public class PasswordService {
         );
     }
 
-    /// <summary>
-    /// Fonction de validation de mots de passe.
-    /// </summary>
-    /// <remarks>
+    
     /// Recoit le mot de passe en clair, non-encrypté, dans <paramref name="motDePasseNonEncrypte"/> tel qu'entré
     /// dans la fenêtre d'authentification (login) par l'utilisateur.<br/>
     /// Recoit le hash du mot de passe de l'utilisateur dans <paramref name="motDePasseNonEncrypte"/> tel que 

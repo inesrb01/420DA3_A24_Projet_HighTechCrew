@@ -11,34 +11,32 @@ using System.Threading.Tasks;
 using static System.Windows.Forms.AxHost;
 
 namespace _420DA3_A24_Projet.DataAccess.Contexts;
+
 public class AppDbContext : DbContext {
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<ShippingOrder> ShippingOrders { get; set; }
-    public DbSet< Shipment> Shipments { get; set; }
+    public DbSet<Shipment> Shipments { get; set; }
     public DbSet<Address> Addresses { get; set; }
-    public DbSet<PurchaseOrder> PurshaseOrders { get; set; }
-    public DbSet<ShippingOrderProduct> ShippingOrderProducts { get; set; } // TODO @SOMEONE: completer une classe-pivot ShippingOrderProduct
-
+    public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Supplier> Suppliers { get; set; }
-
-
-    // TODO @TOUT_LE_MONDE: ajouter des DbSet pour les autres classes du domaine
+    public DbSet<Client> Clients { get; set; }
+    public DbSet<Warehouse> Warehouses { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
         base.OnConfiguring(optionsBuilder);
-
-        optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ProjectOrder;Persist Security Info=True;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=0").UseLazyLoadingProxies();
+        optionsBuilder.UseSqlServer("Data Source=.;Initial Catalog=ProjectOrder;Persist Security Info=True;Pooling=False;Multiple Active Result Sets=False;Encrypt=True;Trust Server Certificate=True;Command Timeout=0")
+                      .UseLazyLoadingProxies();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<User>().Property(o => o.DateCreated).HasDefaultValue(DateTime.Now);
         modelBuilder.Entity<Role>().Property(o => o.DateCreated).HasDefaultValue(DateTime.Now);
 
-
-        base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<ShippingOrder>()
             .ToTable(nameof(ShippingOrders))
@@ -399,10 +397,7 @@ public class AppDbContext : DbContext {
             // Clé primaire
             entity.HasKey(e => e.Id);
 
-            // Configuration des propriétés
             entity.Property(e => e.Id)
-                  .HasColumnName(nameof(Address.Id))
-                  .HasColumnOrder(0)
                   .HasColumnType("int")
                   .UseIdentityColumn(1, 1);
 
@@ -449,10 +444,7 @@ public class AppDbContext : DbContext {
                   .IsRequired(true);
 
             entity.Property(e => e.DateCreated)
-                  .HasColumnName(nameof(Address.DateCreated))
-                  .HasColumnOrder(8)
                   .HasColumnType("datetime2")
-                  .HasPrecision(7)
                   .HasDefaultValueSql("GETDATE()")
                   .IsRequired(true);
 
@@ -671,13 +663,13 @@ public class AppDbContext : DbContext {
 
 
 
-            // TODO @TOUT_LE_MONDE: ajouter l'insertion de données initiales ici
-            modelBuilder.Entity<Warehouse>().HasData(new Warehouse {
-                Id = 1,
-                WarehouseName = "Main Warehouse",
-                AddressId = 1,
-                DateCreated = DateTime.Now
-            });
+        // Initial Data
+        modelBuilder.Entity<Warehouse>().HasData(new Warehouse {
+            Id = 1,
+            WarehouseName = "Main Warehouse",
+            AddressId = 1,
+            DateCreated = DateTime.Now
+        });
 
             modelBuilder.Entity<Client>().HasData(new Client {
                 Id = 1,

@@ -1,5 +1,4 @@
-﻿using _420DA3_A24_Projet.DataAccess.Contexts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,9 +9,6 @@ internal class WsysApplication {
     private AppDbContext appDbContext;
     public ShipmentService ShipmentService { get; set; }
     public ShippingOrderService ShippingOrderService { get; set; }
-
-
-
 
     public WsysApplication() {
         appDbContext = new AppDbContext();

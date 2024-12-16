@@ -34,6 +34,7 @@ public partial class SupplierView : Form {
         this.supplierDataGridView.RowTemplate.Height = 33;
         this.supplierDataGridView.Size = new Size(840, 225);
         this.supplierDataGridView.TabIndex = 0;
+        this.supplierDataGridView.CellContentClick += this.supplierDataGridView_CellContentClick;
         // 
         // btnAddSupplier
         // 
@@ -43,6 +44,7 @@ public partial class SupplierView : Form {
         this.btnAddSupplier.TabIndex = 1;
         this.btnAddSupplier.Text = "AddSupplier";
         this.btnAddSupplier.UseVisualStyleBackColor = true;
+        this.btnAddSupplier.Click += this.btnAddSupplier_Click;
         // 
         // btnEditSupplier
         // 
@@ -101,5 +103,13 @@ public partial class SupplierView : Form {
         ((ISupportInitialize) this.supplierDataGridView).EndInit();
         this.ResumeLayout(false);
         this.PerformLayout();
+    }
+
+    private void btnAddSupplier_Click(object sender, EventArgs e) {
+
+    }
+
+    private void supplierDataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e) {
+
     }
 }

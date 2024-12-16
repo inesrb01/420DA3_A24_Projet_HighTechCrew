@@ -1,4 +1,5 @@
-﻿using Azure.Identity;
+﻿using _420DA3_A24_Projet.Business.Domain;
+using Azure.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,6 @@ using System.Threading.Tasks;
 using static _420DA3_A24_Projet.Business.Domain.Product;
 
 namespace _420DA3_A24_Projet.Business.Domain;
-
 
 public class Warehouse {
     public int Id { get; set; } 
@@ -21,8 +21,7 @@ public class Warehouse {
     public virtual List<Client> Clients { get; set; } = new List<Client>(); 
     public virtual Address Address { get; set; } 
     public virtual List<PurchaseOrder> PurchaseOrders { get; set; } = new List<PurchaseOrder>(); 
-    public virtual List<User> WarehouseEmployees { get; set; } = new List<User>(); 
-
+    
     public Warehouse() 
     {
 

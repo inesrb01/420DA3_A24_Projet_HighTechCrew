@@ -58,7 +58,7 @@ partial class ProductView {
             p.InStockQty,
             p.DesiredQty,
             SupplierName = p.Supplier?.SupplierName
-        }).ToList();
+        }).ToList(); 
     }
 
     private DataGridView productDataGridView;

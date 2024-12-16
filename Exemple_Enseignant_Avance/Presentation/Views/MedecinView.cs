@@ -237,4 +237,12 @@ public partial class MedecinView : Form, IEntityView<Medecin, int> {
             throw new ValidationException(message);
         }
     }
+
+    private void idNumericUpDown_ValueChanged(object sender, EventArgs e) {
+
+    }
+
+    private void idLabel_Click(object sender, EventArgs e) {
+
+    }
 }
