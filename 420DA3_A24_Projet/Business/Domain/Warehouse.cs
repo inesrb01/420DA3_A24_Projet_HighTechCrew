@@ -20,8 +20,9 @@ public class Warehouse {
 
     public virtual List<Client> Clients { get; set; } = new List<Client>(); 
     public virtual Address Address { get; set; } 
-    public virtual List<PurchaseOrder> PurchaseOrders { get; set; } = new List<PurchaseOrder>(); 
-    
+    public virtual List<PurchaseOrder> PurchaseOrders { get; set; } = new List<PurchaseOrder>();
+    public string City { get; internal set; }
+
     public Warehouse() 
     {
 
@@ -45,6 +46,14 @@ public class Warehouse {
 
     public override string ToString() {
         return $"Warehouse: {WarehouseName} (ID: {Id}), AddressId: {AddressId}, Created: {DateCreated}, Modified: {DateModified?.ToString() ?? "N/A"}, Deleted: {DateDeleted?.ToString() ?? "N/A"}";
+    }
+
+    internal static void Add(Warehouse warehouse) {
+        throw new NotImplementedException();
+    }
+
+    internal static object? GetAll() {
+        throw new NotImplementedException();
     }
 }
 
