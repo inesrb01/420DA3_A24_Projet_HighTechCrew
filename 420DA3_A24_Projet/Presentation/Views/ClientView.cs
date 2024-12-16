@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace _420DA3_A24_Projet.Presentation.Views;
 public partial class ClientView : Form {
-    public ClientView() {
+    public ClientView(Business.Services.WsysApplication parentApp) {
         InitializeComponent();
     }
 

@@ -99,7 +99,7 @@ public class AppDbContext : DbContext {
             DateCreated = DateTime.Now
         });
 
-        modelBuilder.Entity<Address>().HasData(new Address {
+        _ = modelBuilder.Entity<Address>().HasData(new Address {
             Id = 1,
             Addressee = "122 Rue Sainte Catherine",
             CivicNumber = "122",
@@ -109,7 +109,7 @@ public class AppDbContext : DbContext {
             Country = "Canada",
             PostalCode = "H2B0S7",
             DateCreated = DateTime.Now,
-            RowVersion = Array.Empty<byte>() 
+            RowVersion = Array.Empty<byte>()
         });
 
     }

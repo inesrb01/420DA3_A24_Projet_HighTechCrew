@@ -1,5 +1,4 @@
 ﻿using _420DA3_A24_Projet.Business.Domain;
-using _420DA3_A24_Projet.Business.Services;
 using Project_Utilities.Enums;
 using System;
 using System.Collections.Generic;
@@ -13,14 +12,8 @@ using System.Windows.Forms;
 
 namespace _420DA3_A24_Projet.Presentation.Views;
 public partial class WarehouseView : Form {
-    private ProjetApplication app;
-
-    public WarehouseView(ProjetApplication app) {
+    public WarehouseView() {
         InitializeComponent();
-    }
-
-    public WarehouseView(ProjetApplication app) {
-        this.app = app;
     }
 
     internal Warehouse? GetCurrentInstance() {
@@ -29,5 +22,9 @@ public partial class WarehouseView : Form {
 
     internal DialogResult OpenFor(ViewActionsEnum viewAction, Warehouse? warehouse) {
         throw new NotImplementedException();
+    }
+
+    private void InitializeComponent() {
+
     }
 }
