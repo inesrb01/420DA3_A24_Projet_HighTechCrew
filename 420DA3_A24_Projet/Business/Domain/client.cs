@@ -67,7 +67,7 @@ namespace _420DA3_A24_Projet.Business.Domain
                    $"Email: {ContactEmail}, Téléphone: {ContactTelephone}\n" +
                    $"Entrepôt assigné: {WarehouseID}, Date de création: {DateCreated}";
 
-        }
+            }
 
             }
 

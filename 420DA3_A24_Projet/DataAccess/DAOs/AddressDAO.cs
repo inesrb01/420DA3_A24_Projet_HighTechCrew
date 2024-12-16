@@ -56,10 +56,10 @@ internal class AddressDAO {
                    .ToList();
     }
 
-    //public address getbywarehouse(entrepots warehouse) {
-    //    return this.context.addresses.firstordefault(a => a.entrepotid == entrepots.id)
-    //           ?? throw new keynotfoundexception($"adresse pour l'entrepôt {entrepots.id} introuvable.");
-    //}
+    public address getbywarehouse(Warehouses warehouse) {
+        return this.context.Addresses.firstordefault(a => a.entrepotid == entrepots.id)
+               ?? throw new Exception($"adresse pour l'entrepôt {warehouse.id} introuvable.");
+    }
 
     //public Address GetByShipOrder(ShippingOrder order) {
     //    return this.context.Addresses.FirstOrDefault(a => a.ShippingOrderId == order.Id)
