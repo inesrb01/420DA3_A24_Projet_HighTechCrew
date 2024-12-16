@@ -27,7 +27,7 @@ public class Address {
     public int Id { get; set; }
 
     // TODO @BRAHEM: Ajouter une propriété AddressType de type AddressTypeEnum (Project_Utilities.Enums.AddressTypesEnum)
-    //public AddressTypeEnum AddressType { get; set; }
+    //public addresstypeenum addresstype { get; set; }
 
     public string Addressee {
         get { return this.addressee; }
@@ -69,7 +69,7 @@ public class Address {
         }
     }
 
-    public string State {
+    public string a {
         get { return this.state; }
         set {
             if (!ValidateState(value)) {
